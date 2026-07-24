@@ -1,980 +1,1041 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>שיעור 2: מודל השכבות (OSI) | האקדמיה לרשתות</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Heebo', sans-serif;
-            background-color: #0b0f19;
-            color: #f1f5f9;
-        }
-        .code-font {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #a855f7;
-            border-radius: 3px;
-        }
-        @keyframes pulse-purple {
-            0%, 100% { filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.4)); }
-            50% { filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.8)); }
-        }
-        .glow-purple {
-            animation: pulse-purple 2s infinite;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>אקדמיית האחוואנים - שיעור מטורלל: רכיבי רשת תקשורת</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@700;800;900&family=Assistant:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  /* Day Ops - עיצוב בהיר כברירת מחדל */
+  --bg: #eef2f7;
+  --grid-line: rgba(15, 23, 42, 0.05);
+  --card: #ffffff;
+  --panel-border: #dbe2ec;
+  --text: #0f172a;
+  --text-muted: #5b6b82;
+  --cyan: #0e7490;
+  --cyan-soft: #e0f6fb;
+  --green: #047857;
+  --green-soft: #e1f8ef;
+  --amber: #b45309;
+  --amber-soft: #fdf1dd;
+  --violet: #6d28d9;
+  --violet-soft: #f1e9fc;
+  --shadow: 0 20px 40px -14px rgba(15, 23, 42, 0.14);
+  --radius: 18px;
+}
+
+body.dark {
+  /* Night Ops - מצב לילה למעבר ידני */
+  --bg: #090d16;
+  --grid-line: rgba(34, 211, 238, 0.06);
+  --card: #10182a;
+  --panel-border: rgba(34, 211, 238, 0.16);
+  --text: #e7edf6;
+  --text-muted: #8493ac;
+  --cyan: #22d3ee;
+  --cyan-soft: rgba(34, 211, 238, 0.12);
+  --green: #34d399;
+  --green-soft: rgba(52, 211, 153, 0.12);
+  --amber: #fbbf24;
+  --amber-soft: rgba(251, 191, 36, 0.12);
+  --violet: #a78bfa;
+  --violet-soft: rgba(167, 139, 250, 0.12);
+  --shadow: 0 20px 50px -14px rgba(0, 0, 0, 0.6);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Assistant', 'Heebo', sans-serif;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 42px 42px;
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding-bottom: 60px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ============ HEADER ============ */
+header {
+  position: relative;
+  background: linear-gradient(160deg, #fbf3e2 0%, #f7ecd6 55%, #f9efdb 100%);
+  color: #b91c1c;
+  padding: 34px 20px 46px;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(185, 28, 28, 0.22);
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 12% 20%, rgba(185, 28, 28, 0.08), transparent 40%),
+    radial-gradient(circle at 88% 75%, rgba(217, 119, 6, 0.10), transparent 45%);
+  pointer-events: none;
+}
+
+.hero-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+  max-width: 1300px;
+  margin: 0 auto;
+  flex-wrap: wrap-reverse;
+}
+
+.hero-image { flex-shrink: 0; }
+
+.hero-image img {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #b91c1c;
+  box-shadow: 0 0 0 7px rgba(185, 28, 28, 0.12), 0 14px 30px -10px rgba(185, 28, 28, 0.35);
+  background: #fff;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.navbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  max-width: 1300px;
+  margin: 0 auto 30px;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 11px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+  letter-spacing: 0.2px;
+}
+
+.nav-btn:hover { transform: translateY(-2px); }
+
+.nav-btn.outline {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(185, 28, 28, 0.4);
+  color: #b91c1c;
+}
+
+.nav-btn.solid {
+  background: linear-gradient(120deg, #dc2626, #b91c1c);
+  color: #fff5f0;
+  box-shadow: 0 8px 22px -6px rgba(185, 28, 28, 0.5);
+}
+
+.statusbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  letter-spacing: 0.4px;
+  color: #b45309;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.statusbar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b91c1c;
+  box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.2);
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.statusbar .sep { opacity: 0.4; }
+
+.header-badge {
+  position: relative;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  color: #b91c1c;
+  font-weight: 800;
+  padding: 7px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  display: inline-block;
+  margin-bottom: 16px;
+  border: 1px solid rgba(185, 28, 28, 0.35);
+  letter-spacing: 0.4px;
+}
+
+h1 {
+  position: relative;
+  margin: 8px 0 6px;
+  font-family: 'Rubik', 'Assistant', sans-serif;
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: #b91c1c;
+}
+
+header p.subtitle {
+  position: relative;
+  margin: 4px 0 26px;
+  color: #c2410c;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.protocol-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.protocol-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b91c1c;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(185, 28, 28, 0.3);
+  padding: 6px 13px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+}
+
+/* ============ מבנה כללי ============ */
+.container {
+  width: 92%;
+  max-width: 1300px;
+  margin: 44px auto;
+}
+
+.panel {
+  position: relative;
+  background: var(--card);
+  padding: 30px 30px 28px;
+  margin-bottom: 30px;
+  border-radius: var(--radius);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--shadow);
+}
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--panel-border);
+}
+
+.panel-head h2 {
+  color: var(--text);
+  font-family: 'Rubik', 'Assistant', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--cyan);
+  background: var(--cyan-soft);
+  border: 1px solid var(--panel-border);
+  padding: 4px 11px;
+  border-radius: 7px;
+  white-space: nowrap;
+}
+
+/* ============ TABS ============ */
+.tabs-nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+  border-bottom: 2px solid var(--panel-border);
+  padding-bottom: 12px;
+}
+
+.tab-btn {
+  font-family: 'Rubik', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 12px 20px;
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-btn:hover {
+  background: var(--cyan-soft);
+  color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+.tab-btn.active {
+  background: linear-gradient(120deg, #dc2626, #b91c1c);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 6px 16px rgba(185, 28, 28, 0.35);
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.component-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 25px;
+}
+
+.comp-media {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.comp-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid var(--panel-border);
+  box-shadow: var(--shadow);
+}
+
+.meta-box {
+  background: var(--bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--panel-border);
+  font-size: 14px;
+}
+
+.meta-item:last-child { border-bottom: none; }
+
+.meta-label { font-weight: 700; color: var(--text-muted); }
+.meta-val { font-family: 'JetBrains Mono', monospace; font-weight: 800; color: var(--cyan); }
+
+.comp-details {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.comp-title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 26px;
+  font-weight: 900;
+  margin: 0;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-box {
+  background: var(--bg);
+  border-right: 4px solid var(--cyan);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.section-box h4 {
+  margin: 0 0 8px 0;
+  font-family: 'Rubik', sans-serif;
+  font-size: 16px;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.section-box p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.spec-card {
+  background: var(--card);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.spec-card span {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.spec-card b {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* ============ כפתור מצב תצוגה ============ */
+.darkBtn {
+  position: fixed;
+  top: 22px;
+  left: 22px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(185, 28, 28, 0.35);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 19px;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  color: #b91c1c;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.darkBtn:hover { transform: scale(1.1); }
+
+/* ============ עוזר הפרויקט הצף ============ */
+.bot-widget {
+    position: fixed;
+    bottom: 13px;
+    left: 13px;
+    width: 178px;
+    max-width: calc(100vw - 26px);
+    background: var(--card);
+    color: var(--text);
+    border-radius: 11px;
+    overflow: hidden;
+    box-shadow: 0 11px 24px rgba(0,0,0,0.28);
+    z-index: 9999;
+    animation: floatBot 4s ease-in-out infinite;
+    border: 1px solid var(--panel-border);
+    transition: width 0.25s ease, height 0.25s ease, opacity 0.2s ease;
+}
+
+.bot-widget.collapsed {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation: none;
+    cursor: pointer;
+}
+
+.bot-widget.collapsed .bot-header, 
+.bot-widget.collapsed .bot-body > *:not(.bot-avatar) {
+    display: none;
+}
+
+.bot-widget.collapsed .bot-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height: 100%;
+}
+
+.bot-widget.collapsed .bot-avatar {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 4px 11px rgba(0,0,0,0.3);
+}
+
+.bot-close {
+    margin-right: auto;
+    background: none;
+    border: none;
+    color: #eaf6fb;
+    cursor: pointer;
+    font-size: 10px;
+    line-height: 1;
+    padding: 1px 2px;
+}
+
+.bot-header {
+    background: linear-gradient(135deg, #0b2540, #062a2e);
+    color: #eaf6fb;
+    padding: 8px 10px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+}
+
+.bot-header .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 0 2px rgba(52,211,153,0.25);
+    animation: pulse 1.8s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.bot-body { padding: 11px; }
+
+.bot-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 7px auto;
+    object-fit: cover;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 0 3px var(--cyan-soft);
+}
+
+.bot-body p.greet {
+    margin: 0 0 6px 0;
+    font-weight: 800;
+    text-align: center;
+    font-size: 9px;
+}
+
+.bot-body .lead {
+    font-weight: 600;
+    font-size: 8px;
+    text-align: center;
+    color: var(--text-muted);
+    margin: 0 0 7px;
+}
+
+.bot-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.bot-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg);
+    border: 1px solid var(--panel-border);
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.bot-btn {
+    display: block;
+    text-align: center;
+    padding: 7px;
+    background: var(--green);
+    color: #06231a;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 8.5px;
+    font-family: 'JetBrains Mono', monospace;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.bot-btn:hover {
+    opacity: 0.88;
+    transform: scale(1.02);
+}
+
+footer {
+  background: var(--card);
+  border-top: 1px solid var(--panel-border);
+  color: var(--text-muted);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  text-align: center;
+  padding: 26px;
+  margin-top: 50px;
+  letter-spacing: 0.3px;
+}
+
+@keyframes floatBot {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ============ MEDIA QUERIES ============ */
+@media (max-width: 900px) {
+  .component-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  h1 { font-size: 26px; }
+  .darkBtn { top: 12px; left: 12px; width: 40px; height: 40px; font-size: 16px; }
+  .panel { padding: 18px 12px; }
+  .hero-image img { width: 100px; height: 100px; }
+  .tab-btn { width: 100%; justify-content: center; }
+  .bot-avatar { width: 68px; height: 68px; }
+
+  .bot-widget:not(.collapsed) {
+    width: calc(100vw - 44px);
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+</style>
 </head>
-<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
 
-    <!-- TOP BAR -->
-    <header class="border-b border-purple-900/40 bg-slate-950/80 backdrop-blur sticky top-0 z-50 px-4 py-3">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="bg-purple-600/20 p-2 rounded-lg border border-purple-500/30 text-purple-400">
-                    <i data-lucide="layers" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <h1 class="font-black text-lg tracking-wide text-white">NET_ACADEMY // <span class="text-purple-400">CLASS_02</span></h1>
-                    <p class="text-xs text-slate-400">מודל השכבות: הרכבת מכונת המידע הגדולה</p>
-                </div>
-            </div>
-            
-            <!-- Gamification & Progress Status -->
-            <div class="flex items-center gap-6">
-                <div class="hidden md:flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-full border border-slate-800">
-                    <span class="text-xs text-slate-400">רמה:</span>
-                    <span class="text-xs font-bold text-purple-400" id="user-level">שוליית נתבים</span>
-                    <div class="w-16 bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                        <div id="level-bar" class="bg-purple-500 h-full w-2/5 transition-all duration-500"></div>
-                    </div>
-                </div>
-                
-                <div class="flex items-center gap-2 bg-purple-950/40 border border-purple-500/30 px-3 py-1.5 rounded-lg text-purple-400">
-                    <i data-lucide="zap" class="w-4 h-4 text-yellow-400 animate-pulse"></i>
-                    <span class="text-xs font-bold">XP:</span>
-                    <span class="text-sm font-black code-font" id="xp-counter">0</span>
-                </div>
-            </div>
-        </div>
-    </header>
+<body>
 
-    <!-- MAIN BODY -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        <!-- SIDEBAR -->
-        <aside class="lg:col-span-3 flex flex-col gap-4">
-            <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl p-5">
-                <h3 class="text-sm font-bold text-slate-300 mb-4 tracking-wider uppercase border-b border-slate-800 pb-2">מפת המשימה</h3>
-                <nav class="flex flex-col gap-2">
-                    <!-- Step 1 -->
-                    <button id="btn-step-1" onclick="switchStep(1)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-purple-950/30 border border-purple-500/40 text-purple-300 transition-all font-bold">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">01.</span>
-                            <span>אנלוגיית מפעל הדואר</span>
-                        </div>
-                        <i data-lucide="mail" class="w-4 h-4 text-purple-400"></i>
-                    </button>
-                    <!-- Step 2 -->
-                    <button id="btn-step-2" onclick="switchStep(2)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">02.</span>
-                            <span>סוד הכמוסה (Encapsulation)</span>
-                        </div>
-                        <i data-lucide="box" class="w-4 h-4 opacity-50"></i>
-                    </button>
-                    <!-- Step 3 -->
-                    <button id="btn-step-3" onclick="switchStep(3)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">03.</span>
-                            <span>סימולטור קו האריזה</span>
-                        </div>
-                        <i data-lucide="factory" class="w-4 h-4 opacity-50"></i>
-                    </button>
-                    <!-- Step 4 -->
-                    <button id="btn-step-4" onclick="switchStep(4)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">04.</span>
-                            <span>האתגר של Connect-Bot</span>
-                        </div>
-                        <i data-lucide="message-square" class="w-4 h-4 opacity-50"></i>
-                    </button>
-                    <!-- Step 5 -->
-                    <button id="btn-step-5" onclick="switchStep(5)" class="w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <span class="code-font text-xs opacity-60">05.</span>
-                            <span>מפת הצלחה וסיום</span>
-                        </div>
-                        <i data-lucide="award" class="w-4 h-4 opacity-50"></i>
-                    </button>
-                </nav>
-            </div>
+<button class="darkBtn" onclick="toggleDark()" title="החלף מצב תצוגה" id="darkToggleBtn">🌙</button>
 
-            <!-- SYSTEM LOG -->
-            <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl p-5 flex-grow flex flex-col justify-between">
-                <div>
-                    <h4 class="text-xs font-bold text-slate-400 tracking-wider mb-3">יומן מערכת זמני</h4>
-                    <div id="system-log" class="text-xs code-font text-purple-400/80 space-y-2 h-48 overflow-y-auto bg-slate-900/50 p-3 rounded border border-slate-800">
-                        <p>[09:46:01] קלאס 02 נטען.</p>
-                        <p>[09:46:02] בסיס נתונים מקומי זמין.</p>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-slate-800/50">
-                    <button onclick="resetProgress()" class="text-xs text-red-400 hover:text-red-300 flex items-center gap-1.5 transition-colors">
-                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-                        <span>אפס התקדמות שיעור</span>
-                    </button>
-                </div>
-            </div>
-        </aside>
+<header>
+  <nav class="navbar">
+    <a class="nav-btn outline" href="#tabs-section">⚡ עברו ישר למעבדת הרכיבים</a>
+    <a class="nav-btn solid" href="https://gemini.google.com/gem/13FFjtbW5S3yg0EE1qBEQiP8GEMwoepKu?usp=sharing" target="_blank" rel="noopener">🖥️ אקדמיית האחוואנים</a>
+  </nav>
 
-        <!-- CONTENT DISPLAY AREA -->
-        <section class="lg:col-span-9 flex flex-col gap-6">
+  <div class="hero-row">
+    <div class="hero-image">
+      <img src="https://lh3.googleusercontent.com/d/1oIkZlLHZWtFgoDblyxziTALQZwsyxAOo" alt="אווטר" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #b91c1c; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.2); background: #fff;">
+    </div>
+    <div class="hero-text">
+      <div class="statusbar">
+        <span class="dot"></span>
+        <span>session: hardware_mastery</span>
+        <span class="sep">//</span>
+        <span>academy.hardware.local</span>
+        <span class="sep">//</span>
+        <span>192.168.1.0/24</span>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 8px;">
+        <span style="background: rgba(185, 28, 28, 0.1); color: #b91c1c; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px;">🔥 שיעור מטורלל: רכיבי רשת</span>
+        <h1 style="font-size: 22px; font-weight: 800; color: #b91c1c; margin: 0; letter-spacing: -0.3px;">איך הכל מתחבר אחי?</h1>
+      </div>
 
-            <!-- STEP 1: MAIL ANALOGY -->
-            <div id="step-1" class="step-container space-y-6">
-                <div class="bg-gradient-to-r from-purple-950/50 to-slate-950 border border-purple-900/40 rounded-2xl p-6 md:p-8 relative overflow-hidden">
-                    <span class="bg-purple-900/60 border border-purple-400/30 text-purple-300 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-widest">תעלומת הדואר הגדולה</span>
-                    
-                    <h2 class="text-2xl md:text-3xl font-black text-white mt-4 mb-3">למה בעצם צריך שכבות?</h2>
-                    <p class="text-slate-300 leading-relaxed text-base md:text-lg">
-                        נניח שאתה רוצה לשלוח מכתב פיזי לחבר בארה"ב. אתה לא פשוט צועק את המילים מהחלון ומקווה שזה יגיע. יש פה סדרה של <span class="text-purple-400 font-bold">שכבות הגנה וטיפול</span> שבלעדיהן המערכת תקרוס:
-                    </p>
+      <p class="subtitle" style="font-size: 14px; margin: 4px 0 16px;">מסע עומק בטאבים: מהביט הבודד בכבל ועד לניתוב החכם בראוטר!</p>
+      <div class="protocol-row">
+        <span class="protocol-chip">OSI LAYERS</span>
+        <span class="protocol-chip">PDU UNITS</span>
+        <span class="protocol-chip">ETHERNET</span>
+        <span class="protocol-chip">IP ROUTING</span>
+        <span class="protocol-chip">WI-FI 6</span>
+      </div>
+    </div>
+  </div>
+</header>
 
-                    <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl relative">
-                            <span class="text-purple-400 font-black code-font text-xl absolute top-2 left-3">#1</span>
-                            <h3 class="text-white font-bold mb-1 text-sm">התוכן שלך</h3>
-                            <p class="text-xs text-slate-400">אתה כותב את המכתב בדף נייר ("מה קורה גבר").</p>
-                        </div>
-                        <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl relative">
-                            <span class="text-purple-400 font-black code-font text-xl absolute top-2 left-3">#2</span>
-                            <h3 class="text-white font-bold mb-1 text-sm">האריזה</h3>
-                            <p class="text-xs text-slate-400">מכניס למעטפה ייעודית (מגן על הדף מפני קריעה).</p>
-                        </div>
-                        <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl relative">
-                            <span class="text-purple-400 font-black code-font text-xl absolute top-2 left-3">#3</span>
-                            <h3 class="text-white font-bold mb-1 text-sm">הכתובת</h3>
-                            <p class="text-xs text-slate-400">רושם כתובת יעד ברורה, מיקוד, וכתובת חזרה.</p>
-                        </div>
-                        <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl relative">
-                            <span class="text-purple-400 font-black code-font text-xl absolute top-2 left-3">#4</span>
-                            <h3 class="text-white font-bold mb-1 text-sm">המשלוח הפיזי</h3>
-                            <p class="text-xs text-slate-400">הדוור לוקח את זה למשאית, מטוס, או ספינה.</p>
-                        </div>
-                    </div>
+<div class="container" id="tabs-section">
 
-                    <div class="mt-6 bg-slate-900/50 p-5 rounded-xl border border-slate-800/80">
-                        <h4 class="text-amber-400 font-bold text-sm mb-2">עצור וחשוב:</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            האם הדוור במשאית (שכבה 4) צריך לדעת לקרוא את המכתב שכתבת (שכבה 1) בשביל להביא אותו ליעד? 
-                        </p>
-                        <div class="flex gap-2 mt-4">
-                            <button onclick="answerAnalogy(true)" class="bg-slate-950 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs px-4 py-2 rounded transition-all">ברור שלא, הוא צריך לראות רק את המעטפה והכתובת!</button>
-                            <button onclick="answerAnalogy(false)" class="bg-slate-950 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs px-4 py-2 rounded transition-all">כן, הוא חייב לוודא שהתוכן חוקי ולא פוגעני.</button>
-                        </div>
-                        <div id="analogy-feedback" class="mt-4 hidden p-3 rounded-lg text-xs font-semibold"></div>
-                    </div>
-                </div>
-                <div class="flex justify-end">
-                    <button onclick="switchStep(2)" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <span>נעבור להכיר את השכבות ברשת</span>
-                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 2: CONCEPT (ENCAPSULATION) -->
-            <div id="step-2" class="step-container space-y-6 hidden">
-                <div class="bg-slate-950 border border-slate-800/80 rounded-2xl p-6 md:p-8">
-                    <span class="text-purple-400 text-xs font-bold uppercase tracking-wider">תיאוריה חיונית</span>
-                    <h2 class="text-2xl font-black text-white mt-2 mb-4">סוד הכמוסה: איך מידע באמת נעטף?</h2>
-                    
-                    <p class="text-slate-300 leading-relaxed mb-6">
-                        כאשר הודעת ה-WhatsApp שלכם יוצאת לדרך, היא עוברת תהליך שנקרא <span class="text-purple-400 font-bold">Encapsulation (כמוסה / עיטוף)</span>. כל שכבה במודל ה-TCP/IP מוסיפה מידע משלה המכונה **Header (כותרת)**, כמו מדבקה נוספת על ארגז משלוח.
-                    </p>
-
-                    <!-- Interactive visualization of encapsulation layers -->
-                    <div class="space-y-3 bg-slate-900 p-6 rounded-xl border border-slate-800 max-w-2xl mx-auto">
-                        <div class="text-center text-xs text-slate-500 font-bold mb-3">מבנה חבילת המידע בסוף העיטוף (השכבה הפיזית):</div>
-                        
-                        <!-- Layer 4 visually wrapping Layer 7 -->
-                        <div class="bg-pink-900/30 border border-pink-500/50 p-2.5 rounded-lg flex items-center justify-between text-xs transition-all hover:scale-[1.01]">
-                            <span class="font-mono bg-pink-500/20 text-pink-300 px-2 py-0.5 rounded font-bold">שכבת האפליקציה (Application)</span>
-                            <span class="text-slate-300 font-bold">הודעת טקסט: "היי, מה קורה?"</span>
-                        </div>
-
-                        <div class="bg-indigo-900/30 border border-indigo-500/50 p-2.5 rounded-lg flex items-center justify-between text-xs transition-all hover:scale-[1.01]">
-                            <span class="font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-bold">שכבת התעבורה (Transport)</span>
-                            <span class="text-slate-300">מוסיפה: מספרי פורטים (למשל Port 443 עבור אבטחה) + סדר חבילות</span>
-                        </div>
-
-                        <div class="bg-blue-900/30 border border-blue-500/50 p-2.5 rounded-lg flex items-center justify-between text-xs transition-all hover:scale-[1.01]">
-                            <span class="font-mono bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded font-bold">שכבת הרשת (Network)</span>
-                            <span class="text-slate-300">מוסיפה: כתובת IP מקור ויעד (מאיזה מחשב לאיזה שרת)</span>
-                        </div>
-
-                        <div class="bg-emerald-900/30 border border-emerald-500/50 p-2.5 rounded-lg flex items-center justify-between text-xs transition-all hover:scale-[1.01]">
-                            <span class="font-mono bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">שכבת הקישור והפיזית (Link / Physical)</span>
-                            <span class="text-slate-300">מוסיפה: כתובות MAC חומרתיות והופכת הכל ל-0 ו-1 חשמליים</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-purple-950/20 border border-purple-800/40 p-5 rounded-xl mt-6">
-                        <h4 class="text-white font-bold text-sm mb-1">מדוע הסדר הזה קריטי?</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            כשהחבילה מגיעה אל היעד (למשל הטלפון של החבר שלכם), קורה תהליך הפוך שנקרא <b>Decapsulation (קילוף הכמוסה)</b>. המכשיר שלו מקלף שכבה אחר שכבה, מהפיזית ועד שהוא נשאר רק עם הודעת הטקסט המקורית ומציג אותה על המסך.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="flex justify-between">
-                    <button onclick="switchStep(1)" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold px-5 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                        <span>חזרה למפעל</span>
-                    </button>
-                    <button onclick="switchStep(3)" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <span>עבור לסימולטור קו האריזה</span>
-                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 3: INTERACTIVE ENCAPSULATION SIMULATOR -->
-            <div id="step-3" class="step-container space-y-6 hidden">
-                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8">
-                    <div class="flex justify-between items-start flex-wrap gap-4">
-                        <div>
-                            <span class="bg-pink-900/60 border border-pink-400/30 text-pink-300 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-widest">תחנת עבודה מעשית</span>
-                            <h2 class="text-2xl font-black text-white mt-3">סימולטור: קו הייצור של כמוסות המידע</h2>
-                            <p class="text-slate-400 text-sm mt-1">המשימה שלך: לגרור/לבחור את המרכיבים הנכונים בסדר המדויק מלמעלה למטה כדי לבנות חבילה מושלמת שנשלחת לרשת!</p>
-                        </div>
-                        <div class="bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg text-xs font-mono text-purple-400">
-                            מטרה: להשלים 4 שלבי עיטוף
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mt-8">
-                        <!-- Left Side: Selection Elements -->
-                        <div class="md:col-span-5 bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4">
-                            <h3 class="text-sm font-bold text-slate-300 border-b border-slate-800 pb-2">מדבקות ומידע זמין:</h3>
-                            
-                            <div class="space-y-2.5">
-                                <button onclick="selectLayerHeader('application')" id="btn-header-app" class="w-full bg-slate-950 hover:bg-slate-800 border border-pink-500/30 p-3 rounded-lg text-right text-xs transition-all flex justify-between items-center">
-                                    <div>
-                                        <p class="font-bold text-pink-400">הודעת טקסט: "שלום עולם!"</p>
-                                        <p class="text-[10px] text-slate-500">מידע גולמי המיוצר על ידי האפליקציה</p>
-                                    </div>
-                                    <span class="bg-pink-950/50 text-pink-400 text-[10px] px-1.5 py-0.5 rounded font-mono">APP</span>
-                                </button>
-
-                                <button onclick="selectLayerHeader('transport')" id="btn-header-trans" class="w-full bg-slate-950 hover:bg-slate-800 border border-indigo-500/30 p-3 rounded-lg text-right text-xs transition-all flex justify-between items-center">
-                                    <div>
-                                        <p class="font-bold text-indigo-400">מדבקה: פורט מקור 5050 | פורט יעד 80</p>
-                                        <p class="text-[10px] text-slate-500">הבטחת סדר ושיוך לתוכנה הנכונה</p>
-                                    </div>
-                                    <span class="bg-indigo-950/50 text-indigo-400 text-[10px] px-1.5 py-0.5 rounded font-mono">TCP / UDP</span>
-                                </button>
-
-                                <button onclick="selectLayerHeader('network')" id="btn-header-net" class="w-full bg-slate-950 hover:bg-slate-800 border border-blue-500/30 p-3 rounded-lg text-right text-xs transition-all flex justify-between items-center">
-                                    <div>
-                                        <p class="font-bold text-blue-400">מדבקה: IP מקור 192.168.1.15 | IP יעד 8.8.8.8</p>
-                                        <p class="text-[10px] text-slate-500">כתובות לוגיות לניתוב גלובלי בעולם</p>
-                                    </div>
-                                    <span class="bg-blue-950/50 text-blue-400 text-[10px] px-1.5 py-0.5 rounded font-mono">IP</span>
-                                </button>
-
-                                <button onclick="selectLayerHeader('physical')" id="btn-header-phys" class="w-full bg-slate-950 hover:bg-slate-800 border border-emerald-500/30 p-3 rounded-lg text-right text-xs transition-all flex justify-between items-center">
-                                    <div>
-                                        <p class="font-bold text-emerald-400">הפיכה לסיביות: 01101001 01101111 01110100</p>
-                                        <p class="text-[10px] text-slate-500">אותות חשמליים, גלי רדיו או אור בסיב</p>
-                                    </div>
-                                    <span class="bg-emerald-950/50 text-emerald-400 text-[10px] px-1.5 py-0.5 rounded font-mono">BITS</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Right Side: Packet Builder Board -->
-                        <div class="md:col-span-7 bg-slate-900/40 border border-slate-800 p-6 rounded-xl flex flex-col justify-between min-h-[350px]">
-                            <div>
-                                <h3 class="text-sm font-bold text-white mb-4">הרכבת כמוסת ה-TCP/IP שלך:</h3>
-                                <div id="builder-box" class="space-y-2 border-2 border-dashed border-slate-800 p-4 rounded-xl min-h-[220px] flex flex-col justify-center gap-3">
-                                    <!-- Dynamic layers added here -->
-                                    <div id="empty-builder-message" class="text-center text-xs text-slate-500">
-                                        <i data-lucide="layout-template" class="w-8 h-8 mx-auto mb-2 opacity-40"></i>
-                                        הקש על המדבקות מצד ימין לפי סדר העיטוף (מאפליקציה ועד לרשת הפיזית).
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-2 mt-6">
-                                <button onclick="clearBuilder()" class="bg-slate-900 hover:bg-slate-800 text-slate-400 border border-slate-800 text-xs font-bold px-4 py-2.5 rounded-lg transition-all">
-                                    נקה הכל
-                                </button>
-                                <button onclick="validatePacket()" id="btn-send-packet" class="flex-grow bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-2">
-                                    <i data-lucide="play" class="w-4 h-4"></i>
-                                    <span>שגר את הכמוסה לרשת!</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="sim-feedback" class="mt-6 hidden p-4 rounded-xl text-xs font-bold flex items-center gap-3"></div>
-                </div>
-
-                <div class="flex justify-between">
-                    <button onclick="switchStep(2)" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold px-5 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                        <span>חזרה להסבר</span>
-                    </button>
-                    <button id="btn-to-step-4" onclick="switchStep(4)" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all disabled:opacity-40 disabled:pointer-events-none" disabled>
-                        <span>המשך לבוט ה-AI</span>
-                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 4: AI CHAT (CONNECT-BOT) -->
-            <div id="step-4" class="step-container space-y-6 hidden">
-                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8">
-                    <div class="flex justify-between items-start flex-wrap gap-4 border-b border-slate-800 pb-4">
-                        <div>
-                            <span class="bg-amber-900/60 border border-amber-400/30 text-amber-300 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-widest">שיח הבנה חכם</span>
-                            <h2 class="text-2xl font-black text-white mt-3">בוט המעבדה: Connect-Bot</h2>
-                            <p class="text-slate-400 text-sm mt-1">אני לא בוחן אתכם במבחן אמריקאי יבש. בואו נראה אם תוכלו להסביר לי את המושגים שלמדתם בשיחה קצרה!</p>
-                        </div>
-                        <div class="bg-slate-900/80 border border-slate-800 px-3 py-1 rounded text-xs text-yellow-400 code-font flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse"></span>
-                            <span>STATUS: ACTIVE_AI</span>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-                        <!-- AI Info -->
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-4 text-center">
-                            <div class="w-16 h-16 bg-purple-900/40 rounded-full border border-purple-500 flex items-center justify-center mx-auto text-2xl">
-                                🤖
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-white text-sm">הנחיות בוט-הרשת</h3>
-                                <p class="text-xs text-slate-400 mt-1">אני רוצה לדעת שאתם מבינים מה התועלת של הפרדת הרשת לשכבות שונות.</p>
-                            </div>
-                            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-right">
-                                <span class="text-[10px] text-slate-500 block">משימה:</span>
-                                <span class="text-xs text-purple-400">תנו לי לפחות סיבה אחת או הסבר מעשי - מדוע חילקו את רשת התקשורת לשכבות שונות במקום לשלוח הכל ביחד ללא חוקים?</span>
-                            </div>
-                        </div>
-
-                        <!-- Chat Area -->
-                        <div class="md:col-span-3 flex flex-col h-[350px] bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
-                            <!-- Messages -->
-                            <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-3 flex flex-col">
-                                <!-- Bot greeting -->
-                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 max-w-[85%] self-start text-xs text-slate-300">
-                                    <span class="text-[10px] font-bold text-purple-400 block mb-1">CONNECT_BOT // </span>
-                                    היי שוב! כל הכבוד על השלמת סימולטור כמוסות המידע. 🚀 
-                                    <br><br>
-                                    עכשיו בואו נדבר קצת. <b>מדוע לדעתכם חילקו את מודל האינטרנט לשכבות מובחנות (כמו אפליקציה, תעבורה, רשת ופיזית)?</b> מה היתרון של זה בפיתוח מכשירים או בפתרון תקלות?
-                                </div>
-                            </div>
-                            
-                            <!-- Input -->
-                            <div class="p-3 border-t border-slate-800 bg-slate-950 flex gap-2">
-                                <input type="text" id="chat-input" onkeypress="handleChatKey(event)" placeholder="הקלד כאן את ההסבר שלך..." class="flex-grow bg-slate-900 text-white border border-slate-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-purple-500">
-                                <button onclick="sendChatMessage()" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all">
-                                    <i data-lucide="send" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="ai-bonus-alert" class="mt-4 hidden bg-purple-950/40 border border-purple-500/30 text-purple-300 p-4 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-xl">🏆</span>
-                            <div>
-                                <p class="font-bold">הישג נפתח! מפתח השכבות הצעיר</p>
-                                <p class="text-xs opacity-80">קיימת שיח עומק מוצלח על עקרון ה-Modularity ברשתות.</p>
-                            </div>
-                        </div>
-                        <span class="font-mono text-xs text-yellow-400 font-bold">+60 XP</span>
-                    </div>
-                </div>
-
-                <div class="flex justify-between">
-                    <button onclick="switchStep(3)" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold px-5 py-3 rounded-xl flex items-center gap-2 transition-all">
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                        <span>חזרה לקו האריזה</span>
-                    </button>
-                    <button id="btn-to-step-5" onclick="switchStep(5)" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all disabled:opacity-40 disabled:pointer-events-none" disabled>
-                        <span>סיכום ויצירת תעודת משימה</span>
-                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 5: REFLECTION & FINISH -->
-            <div id="step-5" class="step-container space-y-6 hidden">
-                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8">
-                    <span class="text-purple-400 text-xs font-bold uppercase tracking-wider">משוב וסיכום ביצועים</span>
-                    <h2 class="text-2xl font-black text-white mt-2 mb-4">השלמת את שיעור 2 בהצלחה!</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Reflection Form -->
-                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4">
-                            <h3 class="font-bold text-white text-base">רפלקציה עצמית למורה</h3>
-                            <p class="text-xs text-slate-400">הקלד את התשובות שלך כאן כדי לייצא אותן ישירות למורה שלך.</p>
-                            
-                            <div class="space-y-3">
-                                <div>
-                                    <label class="block text-xs text-slate-300 mb-1">1. מדוע לדעתך קוראים לתהליך "עיטוף" (כמוסה)? הסבר במילים שלך.</label>
-                                    <textarea id="reflection-q1" class="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" rows="2" placeholder="למשל: כי כל שכבה עוטפת ומכניסה לתוך 'מעטפה' חדשה את מה שקיבלה..."></textarea>
-                                </div>
-                                <div>
-                                    <label class="block text-xs text-slate-300 mb-1">2. איזה חלק מהשיעור היה לך הכי קשה להבנה?</label>
-                                    <textarea id="reflection-q2" class="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" rows="1" placeholder="למשל: סדר המדבקות, או ההבדל בין IP לפורט..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Export Card -->
-                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-white text-base mb-2">קוד ההישג הכיתתי שלך</h3>
-                                <p class="text-xs text-slate-400 mb-4">העתק את הקוד החתום הבא ושתף אותו בקבוצת הכיתה או עם החבר לספסל הלימודים!</p>
-                                
-                                <div class="bg-slate-950 p-3 rounded border border-slate-800 code-font text-xs flex justify-between items-center text-purple-400">
-                                    <span id="share-code">NET-ACAD-CLASS2-PENDING</span>
-                                    <button onclick="copyShareCode()" class="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1">
-                                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                        <span>העתק</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="mt-6 pt-6 border-t border-slate-800/80 space-y-3">
-                                <button onclick="exportTeacherReport()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-lg text-sm transition-all flex items-center justify-center gap-2">
-                                    <i data-lucide="download" class="w-4 h-4"></i>
-                                    <span>הורד דוח סיכום פעילות</span>
-                                </button>
-                                <p class="text-[10px] text-slate-400 text-center">הקובץ שייוצר מכיל את התקדמות ה-XP והרפלקציות, ומיועד להגשה ישירה למורה.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="border-t border-slate-900 bg-slate-950 py-4 px-4 text-center">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-            <p>© 2026 NET_ACADEMY - הדרך שלך לרשתות ותקשורת מחשבים</p>
-            <div class="flex gap-4">
-                <span>שיעור 2 מתוך 10</span>
-                <span>•</span>
-                <span class="text-purple-400">מבוסס מודל TCP/IP</span>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Notification system toast -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 border border-purple-500 text-white px-4 py-3 rounded-xl shadow-2xl z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3">
-        <i data-lucide="info" class="w-5 h-5 text-purple-400" id="toast-icon"></i>
-        <span id="toast-message" class="text-sm"></span>
+  <div class="panel">
+    <div class="panel-head">
+      <h2>🔌 מעבדת רכיבי הרשת - בחרו טאב ללמידה</h2>
+      <span class="panel-tag mono">LAB_MODULE_V2.0</span>
     </div>
 
-    <!-- כפתור עזרה צף קבוע בפינה התחתונה עם אווטר מובנה -->
-    <div class="fixed bottom-6 left-6 z-50 no-print">
-        <button id="openHelpModalBtn" class="flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-lg shadow-cyan-500/20 transition-all duration-300 transform hover:scale-105 group border border-cyan-400/30">
-            <!-- אווטר קטן בתוך הכפתור -->
-            <div class="w-8 h-8 rounded-full border border-white/40 overflow-hidden bg-slate-950 flex-shrink-0 shadow-inner">
-                <img src="https://lh3.googleusercontent.com/d/1fzqv93VKIW_VT8-e1HdJxBmbU2sFnwlb" alt="אווטר בוט עזרה" class="w-full h-full object-cover">
-            </div>
-            <span>בוט עזרה</span>
-        </button>
+    <!-- סרגל הטאבים -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="openTab(event, 'pc')">💻 מחשב (PC / Host)</button>
+      <button class="tab-btn" onclick="openTab(event, 'nic')">💳 כרטיס רשת (NIC)</button>
+      <button class="tab-btn" onclick="openTab(event, 'cables')">🔌 כבלים ותשתיות</button>
+      <button class="tab-btn" onclick="openTab(event, 'switch')">🔀 סוויטש (Switch)</button>
+      <button class="tab-btn" onclick="openTab(event, 'router')">🌐 ראוטר (Router)</button>
+      <button class="tab-btn" onclick="openTab(event, 'wireless')">📡 רכיבים אלחוטיים</button>
     </div>
 
-    <!-- חלונית עזרה צפה (Modal) עם אווטר מורחב -->
-    <div id="helpModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4 transition-all duration-300">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full text-center relative shadow-2xl shadow-cyan-500/5 transform scale-95 transition-transform duration-300" id="helpModalContent">
-            <!-- כפתור סגירה X -->
-            <button id="closeHelpModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-slate-800">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-            
-            <!-- אווטר התמונה בחלונית -->
-            <div class="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-cyan-400/50 p-1 bg-slate-950 shadow-lg shadow-cyan-500/20 overflow-hidden">
-                <img src="https://lh3.googleusercontent.com/d/1fzqv93VKIW_VT8-e1HdJxBmbU2sFnwlb" alt="תמונת בוט עזרה" class="w-full h-full object-cover rounded-full">
-            </div>
-
-            <h3 class="text-lg font-black text-white mb-2">צריך עזרה במשימה?</h3>
-            <p class="text-sm text-slate-400 mb-6 leading-relaxed">בוט העזרה הרשמי של האקדמיה זמין כעת כדי לענות על שאלות, להסביר מושגים ולכוון אותך לפתרון המלא!</p>
-            
-            <!-- כפתור הפניה לקישור הבוט -->
-            <a href="https://gemini.google.com/gem/167016ac4a4b/66c3b83daa7940ef?usp=sharing" target="_blank" class="w-full flex items-center justify-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-black py-3 px-4 rounded-xl transition-all duration-200 shadow-lg shadow-cyan-500/10">
-                <span>הפעל את בוט העזרה</span>
-                <i data-lucide="external-link" class="w-4 h-4"></i>
-            </a>
+    <!-- TAB 1: מחשב -->
+    <div id="pc" class="tab-content active">
+      <div class="component-grid">
+        <div class="comp-media">
+          <img class="comp-img" src="https://images.unsplash.com/photo-1587831990711-23ca6441447b?auto=format&fit=crop&w=600&q=80" alt="מחשב קצה">
+          <div class="meta-box">
+            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layers 7 - 1 (All)</span></div>
+            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Data / Segment</span></div>
+            <div class="meta-item"><span class="meta-label">תפקיד עיקרי:</span><span class="meta-val">End-Host (מקור/יעד)</span></div>
+            <div class="meta-item"><span class="meta-label">מזהה רשתי:</span><span class="meta-val">IP & Hostname</span></div>
+          </div>
         </div>
+        <div class="comp-details">
+          <h3 class="comp-title">💻 מחשב קצה (Host / PC / Server)</h3>
+          
+          <div class="section-box">
+            <h4>⚡ אופן פעולה</h4>
+            <p>מחשב הוא רכיב הקצה (End-Device) שבו הכל מתחיל ונגמר! הוא מייצר את המידע בשכבת האפליקציה (למשל הודעת וואטסאפ, בקשת HTTP בדפדפן או סטרימינג ביוטיוב), עובר את כל תהליך ההכמסה (Encapsulation) דרך סטאק ה-TCP/IP, ושולח אותה החוצה. כשהוא מקבל חבילה - הוא מפרק אותה מהביטים ועד לטקסט/וידאו שאתם רואים במסך.</p>
+          </div>
+
+          <div class="section-box" style="border-color: var(--green);">
+            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <div class="spec-grid">
+              <div class="spec-card"><span>כתובת לוגית</span><b>IP Address (IPv4/IPv6)</b></div>
+              <div class="spec-card"><span>מערכת הפעלה</span><b>Windows / Linux / macOS</b></div>
+              <div class="spec-card"><span>פרוטוקולי יישום</span><b>HTTP, HTTPS, FTP, DNS</b></div>
+              <div class="spec-card"><span>ניהול פורטים</span><b>Sockets (1-65535)</b></div>
+            </div>
+          </div>
+
+          <div class="section-box" style="border-color: var(--amber);">
+            <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+            <p>המחשב מריץ טבלת ARP פנימית! תרשמו ב-CMD שלכם <span class="mono">arp -a</span> ותראו איך המחשב זוכר איזה כתובת IP שייכת לאיזה כתובת MAC פיזית ברשת המקומית שלכם!</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- SCRIPT LOGIC -->
-    <script>
-        // State
-        let xp = 0;
-        let activeStep = 1;
-        let selectedLayers = [];
-        let hasPassedSim = false;
-        let hasPassedAi = false;
-        let currentLevel = "שוליית נתבים";
+    <!-- TAB 2: כרטיס רשת -->
+    <div id="nic" class="tab-content">
+      <div class="component-grid">
+        <div class="comp-media">
+          <img class="comp-img" src="https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=600&q=80" alt="כרטיס רשת">
+          <div class="meta-box">
+            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layer 2 (Data Link)</span></div>
+            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Frame (מסגרת)</span></div>
+            <div class="meta-item"><span class="meta-label">כתובת מובנית:</span><span class="meta-val">MAC Address (48 bit)</span></div>
+            <div class="meta-item"><span class="meta-label">חיבור פיזי:</span><span class="meta-val">PCIe / Integrated</span></div>
+          </div>
+        </div>
+        <div class="comp-details">
+          <h3 class="comp-title">💳 כרטיס רשת (Network Interface Card - NIC)</h3>
+          
+          <div class="section-box">
+            <h4>⚡ אופן פעולה</h4>
+            <p>הכרטיס רשת הוא המתרגם והשומר בכניסה למחשב! הוא לוקח את המידע הדיגיטלי מהמעבד והזיכרון, מקודד אותו לאותות חשמליים, אופטיים או גלי רדיו, ושולח אותו לתווך התקשורת. בנוסף, על כרטיס הרשת צרובה כתובת ה-MAC הפיזית הבלעדית שלו שלא משתנית לעולם!</p>
+          </div>
 
-        const correctOrder = ["application", "transport", "network", "physical"];
+          <div class="section-box" style="border-color: var(--green);">
+            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <div class="spec-grid">
+              <div class="spec-card"><span>מבנה MAC</span><b>Hexadecimal (6 Bytes)</b></div>
+              <div class="spec-card"><span>קצב תעבורה</span><b>1Gbps / 2.5Gbps / 10Gbps</b></div>
+              <div class="spec-card"><span>מחבר נפוץ</span><b>RJ-45 / SFP+</b></div>
+              <div class="spec-card"><span>מצב עבודה</span><b>Full-Duplex (שידור וקליטה)</b></div>
+            </div>
+          </div>
 
-        const xpCounter = document.getElementById('xp-counter');
-        const userLevel = document.getElementById('user-level');
-        const levelBar = document.getElementById('level-bar');
-        const systemLog = document.getElementById('system-log');
-        const toastEl = document.getElementById('toast');
-        const toastMsg = document.getElementById('toast-message');
+          <div class="section-box" style="border-color: var(--amber);">
+            <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+            <p>3 הבייטים הראשונים בכתובת ה-MAC נקראים OUI! הם מזהים מאיזה יצרן הכרטיס (Intel, Cisco, Realtek). אפשר לדעת איזה חברה יצרה את הרכיב רק לפי ה-MAC!</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        lucide.createIcons();
+    <!-- TAB 3: כבלים ותשתיות -->
+    <div id="cables" class="tab-content">
+      <div class="component-grid">
+        <div class="comp-media">
+          <img class="comp-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80" alt="כבלי רשת">
+          <div class="meta-box">
+            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layer 1 (Physical)</span></div>
+            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Bits (0101011)</span></div>
+            <div class="meta-item"><span class="meta-label">סוג התקן:</span><span class="meta-val">UTP / STP / Fiber</span></div>
+            <div class="meta-item"><span class="meta-label">ראש מחבר:</span><span class="meta-val">RJ-45 / LC / SC</span></div>
+          </div>
+        </div>
+        <div class="comp-details">
+          <h3 class="comp-title">🔌 כבלי תקשורת ותשתיות פיזיות</h3>
+          
+          <div class="section-box">
+            <h4>⚡ אופן פעולה</h4>
+            <p>העורקים של האינטרנט! התפקיד שלהם הוא להעביר ביטים (0 ו-1) בצורה המהירה והאמינה ביותר. בכבלי נחושת המידע עובר כפולסים חשמליים, ובסיבים אופטיים המידע טס כגלי אור מטורפים בתוך זכוכית דקה הדוקה!</p>
+          </div>
 
-        window.onload = function() {
-            loadSavedProgress();
-        };
+          <div class="section-box" style="border-color: var(--green);">
+            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <div class="spec-grid">
+              <div class="spec-card"><span>CAT 6 / CAT 6A</span><b>עד 10Gbps (מרחק 55m/100m)</b></div>
+              <div class="spec-card"><span>סיב אופטי Single-Mode</span><b>למרחקים ענקיים (עשרות ק"מ)</b></div>
+              <div class="spec-card"><span>סיב אופטי Multi-Mode</span><b>למרחקים קצרים (בתוך דאטה סנטר)</b></div>
+              <div class="spec-card"><span>תקן חיווט</span><b>T568B / T568A</b></div>
+            </div>
+          </div>
 
-        // Load progress
-        function loadSavedProgress() {
-            const savedXp = localStorage.getItem('net_academy_l2_xp');
-            const savedStep = localStorage.getItem('net_academy_l2_step');
-            const savedLevel = localStorage.getItem('net_academy_l2_level');
-            const savedQ1 = localStorage.getItem('net_academy_l2_q1');
-            const savedQ2 = localStorage.getItem('net_academy_l2_q2');
+          <div class="section-box" style="border-color: var(--amber);">
+            <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+            <p>זוכרים כבל מוצלב (Crossover) וכבל ישר (Straight-Through)? היום לרוב הסוויצ'ים יש מנגנון מטורף שנקרא Auto-MDIX שמשנה את הפורט אוטומטית גם אם טעיתם בסוג הכבל!</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            if (savedXp) {
-                xp = parseInt(savedXp);
-                xpCounter.innerText = xp;
-            } else {
-                xp = 50; // default starting XP from Lesson 1
-                xpCounter.innerText = xp;
-            }
+    <!-- TAB 4: סוויטש -->
+    <div id="switch" class="tab-content">
+      <div class="component-grid">
+        <div class="comp-media">
+          <img class="comp-img" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80" alt="מתג סוויטש">
+          <div class="meta-box">
+            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layer 2 (Data Link)</span></div>
+            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Frame (מסגרת)</span></div>
+            <div class="meta-item"><span class="meta-label">טבלה מרכזית:</span><span class="meta-val">MAC Address Table</span></div>
+            <div class="meta-item"><span class="meta-label">טכנולוגיית ליבה:</span><span class="meta-val">VLANs, Trunk, STP</span></div>
+          </div>
+        </div>
+        <div class="comp-details">
+          <h3 class="comp-title">🔀 מתג רשת (Switch - L2)</h3>
+          
+          <div class="section-box">
+            <h4>⚡ אופן פעולה</h4>
+            <p>הסוויטש הוא המרכזיה החכמה של הרשת המקומית (LAN). כשמגיעה אליו מסגרת (Frame), הוא מסתכל על כתובת ה-MAC של היעד, בודק בטבלת ה-MAC הפיזית שלו באיזה פורט היעד נמצא, ושולח את המידע **רק לפורט הזה**! בשונה מהרכזת הישנה (Hub) שהיתה צועקת לכולם (Broadcast).</p>
+          </div>
 
-            if (savedLevel) {
-                currentLevel = savedLevel;
-                userLevel.innerText = currentLevel;
-                updateLevelUI();
-            }
+          <div class="section-box" style="border-color: var(--green);">
+            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <div class="spec-grid">
+              <div class="spec-card"><span>חלוקת רשתות</span><b>VLANs (802.1Q)</b></div>
+              <div class="spec-card"><span>חיבור בין סוויצ'ים</span><b>Trunk Port (802.1Q Tagging)</b></div>
+              <div class="spec-card"><span>אבטחת פורטים</span><b>Port Security (Sticky MAC)</b></div>
+              <div class="spec-card"><span>מניעת לולאות</span><b>STP (Spanning Tree Protocol)</b></div>
+            </div>
+          </div>
 
-            if (savedQ1) document.getElementById('reflection-q1').value = savedQ1;
-            if (savedQ2) document.getElementById('reflection-q2').value = savedQ2;
+          <div class="section-box" style="border-color: var(--amber);">
+            <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+            <p>אם הסוויטש לא מכיר את כתובת ה-MAC של היעד, הוא יבצע היצפה (Unknown Unicast Flooding) וישלח את המסגרת לכל הפורטים חוץ מהפורט שנכנסה ממנו, עד שהוא ילמד אותה!</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            if (savedStep) {
-                switchStep(parseInt(savedStep));
-            } else {
-                switchStep(1);
-            }
-            addLog("התקדמות קודמת לשיעור 2 נטענה מהדפדפן.");
-        }
+    <!-- TAB 5: ראוטר -->
+    <div id="router" class="tab-content">
+      <div class="component-grid">
+        <div class="comp-media">
+          <img class="comp-img" src="https://images.unsplash.com/photo-1606904825846-647eb07f5be2?auto=format&fit=crop&w=600&q=80" alt="נתב ראוטר">
+          <div class="meta-box">
+            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layer 3 (Network)</span></div>
+            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Packet (חבילה)</span></div>
+            <div class="meta-item"><span class="meta-label">טבלה מרכזית:</span><span class="meta-val">Routing Table</span></div>
+            <div class="meta-item"><span class="meta-label">תפקיד על:</span><span class="meta-val">מחבר בין רשתות שונות</span></div>
+          </div>
+        </div>
+        <div class="comp-details">
+          <h3 class="comp-title">🌐 נתב (Router - L3)</h3>
+          
+          <div class="section-box">
+            <h4>⚡ אופן פעולה</h4>
+            <p>הראוטר הוא מנהל התנועה העולמי! התפקיד שלו הוא לקשר בין רשתות שונות נפרדות (למשל הרשת הביתית שלכם לרשת האינטרנט העולמית). הראוטר בוחן את כתובת ה-IP של היעד בכל חבילה, בודק בטבלת הניתוב שלו (Routing Table) מה המניע/הנתיב הכי טוב להגיע לשם, ומעביר אותה הלאה.</p>
+          </div>
 
-        function saveProgress() {
-            localStorage.setItem('net_academy_l2_xp', xp);
-            localStorage.setItem('net_academy_l2_step', activeStep);
-            localStorage.setItem('net_academy_l2_level', currentLevel);
-            localStorage.setItem('net_academy_l2_q1', document.getElementById('reflection-q1').value);
-            localStorage.setItem('net_academy_l2_q2', document.getElementById('reflection-q2').value);
-        }
+          <div class="section-box" style="border-color: var(--green);">
+            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <div class="spec-grid">
+              <div class="spec-card"><span>סוגי ניתוב</span><b>Static Routing / Dynamic (OSPF, RIP)</b></div>
+              <div class="spec-card"><span>תרגום כתובות</span><b>NAT / PAT (Public vs Private IP)</b></div>
+              <div class="spec-card"><span>חלוקת IP</span><b>DHCP Server / Relay</b></div>
+              <div class="spec-card"><span>ניתוב בין VLANs</span><b>Router-on-a-Stick (Sub-Interfaces)</b></div>
+            </div>
+          </div>
 
-        function resetProgress() {
-            if (confirm("האם ברצונך לאפס את התקדמות שיעור 2?")) {
-                localStorage.removeItem('net_academy_l2_xp');
-                localStorage.removeItem('net_academy_l2_step');
-                localStorage.removeItem('net_academy_l2_level');
-                localStorage.removeItem('net_academy_l2_q1');
-                localStorage.removeItem('net_academy_l2_q2');
-                
-                xp = 50;
-                activeStep = 1;
-                selectedLayers = [];
-                hasPassedSim = false;
-                hasPassedAi = false;
-                currentLevel = "שוליית נתבים";
+          <div class="section-box" style="border-color: var(--amber);">
+            <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+            <p>ראוטר עוצר הודעות Broadcast! שום הודעת הצפה מ-VLAN אחד לא תעבור דרך הראוטר ל-VLAN אחר אלא אם הגדרתם ניתוב במפורש. הוא השומר של גבולות הרשת!</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                xpCounter.innerText = xp;
-                userLevel.innerText = currentLevel;
-                levelBar.style.width = "40%";
-                
-                document.getElementById('reflection-q1').value = "";
-                document.getElementById('reflection-q2').value = "";
-                
-                document.getElementById('btn-to-step-4').disabled = true;
-                document.getElementById('btn-to-step-5').disabled = true;
-                document.getElementById('sim-feedback').classList.add('hidden');
-                document.getElementById('ai-bonus-alert').classList.add('hidden');
-                
-                clearBuilder();
-                switchStep(1);
-                showToast("ההתקדמות בשיעור 2 אופסה.");
-                addLog("ההתקדמות אופסה.");
-            }
-        }
+    <!-- TAB 6: רכיבים אלחוטיים -->
+    <div id="wireless" class="tab-content">
+      <div class="component-grid">
+        <div class="comp-media">
+          <img class="comp-img" src="https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80" alt="רכיבים אלחוטיים WAP">
+          <div class="meta-box">
+            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layers 1 & 2 (Wi-Fi)</span></div>
+            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Radio Frames (802.11)</span></div>
+            <div class="meta-item"><span class="meta-label">תדרים נפוצים:</span><span class="meta-val">2.4GHz / 5GHz / 6GHz</span></div>
+            <div class="meta-item"><span class="meta-label">תקן מרכזי:</span><span class="meta-val">IEEE 802.11ax (Wi-Fi 6)</span></div>
+          </div>
+        </div>
+        <div class="comp-details">
+          <h3 class="comp-title">📡 רכיבי גישה אלחוטיים (Access Point / Wireless Router)</h3>
+          
+          <div class="section-box">
+            <h4>⚡ אופן פעולה</h4>
+            <p>נקודת גישה אלחוטית (AP) ממירה את האותות החשמליים שמגיעים מהסוויטש הקווי לגלי רדיו באוויר. היא משדרת את שם הרשת (SSID) ומאפשרת למכשירים ניידים להתחבר לרשת הקווית ללא כבלים. הראוטר הביתי שלכם הוא למעשה רכיב משולב: ראוטר + סוויטש + נקודת גישה אלחוטית בקופסה אחת!</p>
+          </div>
 
-        function switchStep(stepNum) {
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById(`step-${i}`).classList.add('hidden');
-                const btn = document.getElementById(`btn-step-${i}`);
-                if (btn) {
-                    btn.className = "w-full text-right flex items-center justify-between p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-all";
-                }
-            }
+          <div class="section-box" style="border-color: var(--green);">
+            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <div class="spec-grid">
+              <div class="spec-card"><span>אבטחה אלחוטית</span><b>WPA2-Personal / WPA3-Enterprise</b></div>
+              <div class="spec-card"><span>תדר 2.4GHz</span><b>טווח ארוך, חודר קירות, איטי יותר</b></div>
+              <div class="spec-card"><span>תדר 5GHz</span><b>מהיר מאוד, טווח קצר, פחות הפרעות</b></div>
+              <div class="spec-card"><span>מנגנון גישה</span><b>CSMA/CA (Collision Avoidance)</b></div>
+            </div>
+          </div>
 
-            document.getElementById(`step-${stepNum}`).classList.remove('hidden');
-            const activeBtn = document.getElementById(`btn-step-${stepNum}`);
-            if (activeBtn) {
-                activeBtn.className = "w-full text-right flex items-center justify-between p-3 rounded-lg bg-purple-950/30 border border-purple-500/40 text-purple-300 transition-all font-bold";
-            }
+          <div class="section-box" style="border-color: var(--amber);">
+            <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+            <p>ברשת קווית משתמשים ב-CSMA/CD (זיהוי התנגשויות), אבל באוויר אי אפשר לזהות התנגשות תוך כדי שידור, ולכן באלחוט משתמשים ב-CSMA/CA (מניעת התנגשויות מראש)!</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            activeStep = stepNum;
-            saveProgress();
-            addLog(`מעבר לשלב ${stepNum}.`);
-        }
+  </div>
 
-        function addLog(text) {
-            const time = new Date().toLocaleTimeString('he-IL', { hour12: false });
-            systemLog.innerHTML += `<p>[${time}] ${text}</p>`;
-            systemLog.scrollTop = systemLog.scrollHeight;
-        }
+</div>
 
-        function showToast(message) {
-            toastMsg.innerText = message;
-            toastEl.classList.remove('translate-y-20', 'opacity-0');
-            toastEl.classList.add('translate-y-0', 'opacity-100');
-            setTimeout(() => {
-                toastEl.classList.remove('translate-y-0', 'opacity-100');
-                toastEl.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
+<!-- 🤖 צומת העוזר המקורי -->
+<div class="bot-widget collapsed" id="botWidget" onclick="expandBot(event)">
+    <div class="bot-header" onclick="toggleBot(event)">
+        <span class="dot"></span> <span>NODE: DAN-GPT // ONLINE</span>
+        <button class="bot-close" onclick="toggleBot(event)" title="סגור/פתח">✕</button>
+    </div>
 
-        function addXP(amount) {
-            xp += amount;
-            xpCounter.innerText = xp;
-            
-            if (xp >= 220) {
-                currentLevel = "מנהל רשתות מומחה";
-                levelBar.style.width = "100%";
-            } else if (xp >= 140) {
-                currentLevel = "טכנאי רשתות מתקדם";
-                levelBar.style.width = "75%";
-            } else {
-                currentLevel = "שוליית נתבים";
-                levelBar.style.width = "40%";
-            }
-            
-            userLevel.innerText = currentLevel;
-            updateLevelUI();
-            saveProgress();
-            showToast(`נוספו +${amount} נקודות XP!`);
-        }
+    <div class="bot-body">
+        <img class="bot-avatar" src="https://lh3.googleusercontent.com/d/1fzqv93VKIW_VT8-e1HdJxBmbU2sFnwlb" alt="דן GPT עוזר הפרויקט">
 
-        function updateLevelUI() {
-            document.getElementById('share-code').innerText = `NET-ACAD-L2-XP${xp}-${currentLevel.replace(/ /g, '_')}`;
-        }
+        <p class="greet">שלום תלמידים 👋</p>
+        <p class="lead">אני דן GPT, עוזר השיעור והפרויקט שלכם. אפשר להיעזר בי ב:</p>
 
-        // STEP 1: Analogy quiz
-        function answerAnalogy(isCorrect) {
-            const feedback = document.getElementById('analogy-feedback');
-            feedback.classList.remove('hidden', 'bg-red-950/40', 'text-red-300', 'bg-emerald-950/40', 'text-emerald-300');
-            
-            if (isCorrect) {
-                feedback.className += ' bg-emerald-950/40 text-emerald-300 p-3 rounded-lg text-xs';
-                feedback.innerHTML = `🌟 <b>נכון מאוד!</b> הדוור לא קורא את תוכן המכתב שלכם - בשביל לעשות את העבודה שלו הוא צריך לראות אך ורק את שכבת הכתובת. באותו אופן, נתב (ראוטר) ברשת לא קורא את התמונות או השיחות שאתם שולחים, אלא רק מסתכל על כתובות ה-IP שבשכבת הרשת כדי להעביר את החבילה ליעד!`;
-                addXP(20);
-                addLog("תשובה נכונה באנלוגיית הדואר.");
-            } else {
-                feedback.className += ' bg-red-950/40 text-red-300 p-3 rounded-lg text-xs';
-                feedback.innerHTML = `❌ <b>לא מדויק.</b> תארו לכם שהדוור היה צריך לפתוח ולקרוא כל מכתב בעולם - הדואר היה קורס מיד! המודל פועל כך ששכבות נמוכות מסתמכות רק על ה"מעטפות" של השכבות מעליהן.`;
-                addXP(5);
-            }
-        }
+        <div class="bot-chips">
+            <span class="bot-chip">Packet Tracer</span>
+            <span class="bot-chip">VLANs</span>
+            <span class="bot-chip">DHCP</span>
+            <span class="bot-chip">DNS</span>
+            <span class="bot-chip">OSI Model</span>
+            <span class="bot-chip">Static Routing</span>
+            <span class="bot-chip">Troubleshooting</span>
+            <span class="bot-chip">כבלי תקשורת</span>
+            <span class="bot-chip">Wi-Fi 6</span>
+        </div>
 
-        // STEP 3: Simulator core logic
-        function selectLayerHeader(layerId) {
-            if (selectedLayers.includes(layerId)) {
-                showToast("כבר הוספת את המעטפת הזו לחבילה!");
-                return;
-            }
+        <a class="bot-btn" href="https://gemini.google.com/gem/13FFjtbW5S3yg0EE1qBEQiP8GEMwoepKu?usp=sharing" target="_blank" rel="noopener">
+            $ connect --gem dan-gpt
+        </a>
+    </div>
+</div>
 
-            selectedLayers.push(layerId);
-            const msg = document.getElementById('empty-builder-message');
-            if (msg) msg.classList.add('hidden');
+<footer>
+  session: רכיבי רשת תקשורת // אקדמיית האחוואנים // מודל OSI & PDU // בהצלחה 💪
+</footer>
 
-            const builder = document.getElementById('builder-box');
-            
-            let color = "";
-            let text = "";
-            let short = "";
+<script>
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  
+  tabcontent = document.getElementsByClassName("tab-content");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].classList.remove("active");
+  }
 
-            if (layerId === 'application') {
-                color = "border-pink-500 bg-pink-950/20 text-pink-300";
-                text = "אפליקציה: 'שלום עולם!'";
-                short = "Layer 7: App";
-            } else if (layerId === 'transport') {
-                color = "border-indigo-500 bg-indigo-950/20 text-indigo-300";
-                text = "תעבורה: כותרת פורטים TCP (Port 80)";
-                short = "Layer 4: Transport";
-            } else if (layerId === 'network') {
-                color = "border-blue-500 bg-blue-950/20 text-blue-300";
-                text = "רשת: כותרת IP (מקור 192.168.1.15)";
-                short = "Layer 3: Network";
-            } else if (layerId === 'physical') {
-                color = "border-emerald-500 bg-emerald-950/20 text-emerald-300";
-                text = "פיזי: שידור סיביות בינאריות (0110)";
-                short = "Layer 1/2: Physical/Link";
-            }
+  tablinks = document.getElementsByClassName("tab-btn");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].classList.remove("active");
+  }
 
-            builder.innerHTML += `
-                <div id="built-layer-${layerId}" class="border ${color} p-2.5 rounded-lg flex justify-between items-center text-xs transition-all animate-bounce">
-                    <span class="font-bold">${text}</span>
-                    <span class="text-[9px] px-1.5 py-0.5 bg-slate-900 rounded font-mono">${short}</span>
-                </div>
-            `;
-            addLog(`התווספה שכבת ${layerId} לקופסת העיטוף.`);
-        }
+  document.getElementById(tabName).classList.add("active");
+  evt.currentTarget.classList.add("active");
+}
 
-        function clearBuilder() {
-            selectedLayers = [];
-            const builder = document.getElementById('builder-box');
-            builder.innerHTML = `
-                <div id="empty-builder-message" class="text-center text-xs text-slate-500">
-                    <i data-lucide="layout-template" class="w-8 h-8 mx-auto mb-2 opacity-40"></i>
-                    הקש על המדבקות מצד ימין לפי סדר העיטוף (מאפליקציה ועד לרשת הפיזית).
-                </div>
-            `;
-            lucide.createIcons();
-            addLog("קו הייצור של האריזה נמחקה מחדש.");
-        }
+function toggleDark(){
+  document.body.classList.toggle("dark");
+  const btn = document.getElementById("darkToggleBtn");
+  btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
 
-        function validatePacket() {
-            const feedback = document.getElementById('sim-feedback');
-            feedback.classList.remove('hidden', 'bg-red-950/40', 'text-red-300', 'bg-emerald-950/40', 'text-emerald-300');
+function toggleBot(evt){
+  evt.stopPropagation();
+  document.getElementById("botWidget").classList.toggle("collapsed");
+}
 
-            if (selectedLayers.length < 4) {
-                feedback.className += ' bg-red-950/40 text-red-300';
-                feedback.innerHTML = `⚠️ <b>אריזה לא הושלמה!</b> החבילה לא יכולה לצאת לרשת כשהיא חשופה. עליך להוסיף את כל 4 השכבות המיוצגות על הלוח.`;
-                return;
-            }
+function expandBot(evt){
+  const widget = document.getElementById("botWidget");
+  if (widget.classList.contains("collapsed")) {
+    widget.classList.remove("collapsed");
+  }
+}
+</script>
 
-            // Check if order is correct
-            let isCorrect = true;
-            for (let i = 0; i < correctOrder.length; i++) {
-                if (selectedLayers[i] !== correctOrder[i]) {
-                    isCorrect = false;
-                    break;
-                }
-            }
-
-            if (isCorrect) {
-                feedback.className += ' bg-emerald-950/40 text-emerald-300';
-                feedback.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <span>🌟</span>
-                        <div>
-                            <p class="font-bold">עיטוף בוצע בהצלחה (Encapsulation Success)!</p>
-                            <p class="text-[11px] opacity-90">החבילה שלך נארזה בצורה מושלמת מהאפליקציה פנימה אל עבר הסיבים הפיזיים ונשלחה בהצלחה ברוחב הפס הכיתתי!</p>
-                        </div>
-                    </div>
-                `;
-                if (!hasPassedSim) {
-                    addXP(40);
-                    hasPassedSim = true;
-                }
-                document.getElementById('btn-to-step-4').disabled = false;
-                addLog("סימולטור אריזת כמוסות הושלם בהצלחה מרובה.");
-            } else {
-                feedback.className += ' bg-red-950/40 text-red-300';
-                feedback.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <span>❌</span>
-                        <div>
-                            <p class="font-bold">סדר השכבות שגוי! החבילה התפרקה באמצע הדרך.</p>
-                            <p class="text-[11px] opacity-90">זכור: המידע נוצר קודם באפליקציה (הודעת טקסט), לאחר מכן משויך לפורטים (תעבורה), מקבל כתובת IP (רשת) ורק בסוף מומר לחשמל/אור (פיזי). נקה ונסה מחדש!</p>
-                        </div>
-                    </div>
-                `;
-                addLog("נכשלה הרכבת חבילה - סדר שכבות שגוי.");
-            }
-        }
-
-        // STEP 4: AI Chat (Connect-Bot)
-        function handleChatKey(event) {
-            if (event.key === 'Enter') {
-                sendChatMessage();
-            }
-        }
-
-        function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            const messageText = input.value.trim();
-            if (!messageText) return;
-
-            const messagesArea = document.getElementById('chat-messages');
-            messagesArea.innerHTML += `
-                <div class="bg-purple-600 text-white p-3 rounded-xl max-w-[85%] self-end text-xs">
-                    <span class="text-[10px] font-bold text-slate-200 block mb-1">אתה // </span>
-                    ${messageText}
-                </div>
-            `;
-
-            input.value = '';
-            messagesArea.scrollTop = messagesArea.scrollHeight;
-            addLog("נשלחה תגובה לבוט המלווה.");
-
-            // Bot animation response
-            const typingId = "typing-" + Date.now();
-            messagesArea.innerHTML += `
-                <div id="${typingId}" class="bg-slate-950 p-3 rounded-xl border border-slate-800 max-w-[85%] self-start text-xs text-slate-500 italic">
-                    בוט הרשת מעבד את דברייך...
-                </div>
-            `;
-            messagesArea.scrollTop = messagesArea.scrollHeight;
-
-            setTimeout(() => {
-                document.getElementById(typingId).remove();
-                
-                let botResponse = "";
-                let isPassed = false;
-
-                const textLower = messageText.toLowerCase();
-                const keywordsOk = ["תקלות", "חלוקה", "סדר", "חוק", "פיתוח", "קוד", "סטנדרט", "ייצור", "פשוט", "נפרד", "עצמא", "תקן", "שילוב"];
-
-                const hasKeyword = keywordsOk.some(k => textLower.includes(k));
-
-                if (hasKeyword || messageText.length > 20) {
-                    botResponse = `🎯 <b>הבנה פנומנלית!</b> חלוקה לשכבות מאפשרת "הפרדת סמכויות" (Modularity). בזכות זה, מפתח תוכנה יכול לכתוב אפליקציה חדשה לגמרי בלי לעצב מחדש כרטיסי רשת פיזיים או כבלי אינטרנט. זה מאפשר פיתוח מהיר, פתרון תקלות נוח ואינטרנט פתוח ומתקדם.`;
-                    isPassed = true;
-                } else {
-                    botResponse = `🤔 הסבר מעניין, אך נסו לחשוב: מה קורה אם יש תקלה? או מה קורה כשחברה מסוימת רוצה לבנות כרטיס רשת חדש? האם היא צריכה להמציא מחדש את הדפדפן? תכתוב לי משהו על חשיבות ה'סדר' או 'פתרון תקלות' בקלות.`;
-                }
-
-                messagesArea.innerHTML += `
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 max-w-[85%] self-start text-xs text-slate-300">
-                        <span class="text-[10px] font-bold text-purple-400 block mb-1">CONNECT_BOT // </span>
-                        ${botResponse}
-                    </div>
-                `;
-                messagesArea.scrollTop = messagesArea.scrollHeight;
-
-                if (isPassed && !hasPassedAi) {
-                    hasPassedAi = true;
-                    addXP(60);
-                    document.getElementById('ai-bonus-alert').classList.remove('hidden');
-                    document.getElementById('btn-to-step-5').disabled = false;
-                    addLog("הבנת מודל השכבות אושרה על ידי ה-AI.");
-                }
-
-            }, 1400);
-        }
-
-        // Copy Share Code
-        function copyShareCode() {
-            const code = document.getElementById('share-code').innerText;
-            const tempInput = document.createElement("input");
-            tempInput.value = code;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-
-            showToast("קוד ההישג הועתק! העבר לחבריך בקבוצה.");
-            addLog("קוד הישג הועתק בהצלחה.");
-        }
-
-        // Export Report to Teacher
-        function exportTeacherReport() {
-            const q1 = document.getElementById('reflection-q1').value;
-            const q2 = document.getElementById('reflection-q2').value;
-            
-            if (!q1 || !q2) {
-                alert("נא מלאו את שתי השאלות בדוח לפני הייצוא!");
-                return;
-            }
-
-            const reportText = `
-=============================================
-דוח מסכם - שיעור 2: מודל השכבות של האינטרנט
-=============================================
-שם התלמיד: [נא להקליד שם מלא כאן]
-דירוג XP סופי: ${xp} XP
-דרגה נוכחית: ${currentLevel}
-
-תשובות לרפלקציה:
----------------------------------------------
-1. מדוע לדעתך קוראים לתהליך "עיטוף" (כמוסה)?
-תשובה: ${q1}
-
-2. איזה חלק מהשיעור היה לך הכי קשה להבנה?
-תשובה: ${q2}
-
----------------------------------------------
-נוצר בהצלחה במערכת הלימוד NET_ACADEMY
-=============================================
-            `;
-
-            const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `NET_ACADEMY_Lesson2_Report.txt`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            showToast("הדוח הורד! שלח אותו ישירות למורה שלך.");
-            addLog("דוח פעילות הופק והורד.");
-        }
-
-        // סקריפט להפעלת חלונית העזרה החדשה (Modal)
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('helpModal');
-            const modalContent = document.getElementById('helpModalContent');
-            const openBtn = document.getElementById('openHelpModalBtn');
-            const closeBtn = document.getElementById('closeHelpModalBtn');
-
-            if(openBtn && modal && modalContent && closeBtn) {
-                openBtn.addEventListener('click', () => {
-                    modal.classList.remove('hidden');
-                    setTimeout(() => modalContent.classList.remove('scale-95'), 10);
-                });
-
-                closeBtn.addEventListener('click', () => {
-                    modalContent.classList.add('scale-95');
-                    setTimeout(() => modal.classList.add('hidden'), 150);
-                });
-
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modalContent.classList.add('scale-95');
-                        setTimeout(() => modal.classList.add('hidden'), 150);
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html>
