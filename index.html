@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>אקדמיית האחוואנים - שיעור מטורלל: רכיבי רשת תקשורת</title>
+<title>אקדמיית האחוואנים - שיעור מטורלל: מודל ה-OSI</title>
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -107,8 +107,8 @@ header::before {
 .hero-image { flex-shrink: 0; }
 
 .hero-image img {
-  width: 168px;
-  height: 168px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid #b91c1c;
@@ -187,26 +187,11 @@ header::before {
 
 .statusbar .sep { opacity: 0.4; }
 
-.header-badge {
-  position: relative;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
-  color: #b91c1c;
-  font-weight: 800;
-  padding: 7px 20px;
-  border-radius: 30px;
-  font-size: 14px;
-  display: inline-block;
-  margin-bottom: 16px;
-  border: 1px solid rgba(185, 28, 28, 0.35);
-  letter-spacing: 0.4px;
-}
-
 h1 {
   position: relative;
   margin: 8px 0 6px;
   font-family: 'Rubik', 'Assistant', sans-serif;
-  font-size: 42px;
+  font-size: 38px;
   font-weight: 900;
   letter-spacing: -0.5px;
   color: #b91c1c;
@@ -250,7 +235,7 @@ header p.subtitle {
 .panel {
   position: relative;
   background: var(--card);
-  padding: 30px 30px 28px;
+  padding: 30px;
   margin-bottom: 30px;
   border-radius: var(--radius);
   border: 1px solid var(--panel-border);
@@ -295,7 +280,7 @@ header p.subtitle {
 /* ============ TABS ============ */
 .tabs-nav {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 25px;
   border-bottom: 2px solid var(--panel-border);
@@ -304,9 +289,9 @@ header p.subtitle {
 
 .tab-btn {
   font-family: 'Rubik', sans-serif;
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 800;
-  padding: 12px 20px;
+  padding: 10px 16px;
   border: 1px solid var(--panel-border);
   border-radius: 12px;
   background: var(--bg);
@@ -315,7 +300,7 @@ header p.subtitle {
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .tab-btn:hover {
@@ -347,23 +332,8 @@ header p.subtitle {
 
 .component-grid {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 300px 1fr;
   gap: 25px;
-}
-
-.comp-media {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.comp-img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 14px;
-  border: 2px solid var(--panel-border);
-  box-shadow: var(--shadow);
 }
 
 .meta-box {
@@ -395,7 +365,7 @@ header p.subtitle {
 
 .comp-title {
   font-family: 'Rubik', sans-serif;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 900;
   margin: 0;
   color: var(--text);
@@ -454,6 +424,83 @@ header p.subtitle {
   font-size: 13.5px;
   font-weight: 800;
   color: var(--text);
+}
+
+/* ============ מבדק אינטראקטיבי ============ */
+.quiz-q {
+  margin-bottom: 22px;
+  padding: 16px;
+  background: var(--bg);
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+}
+
+.quiz-q h4 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.quiz-opt {
+  display: block;
+  margin-bottom: 8px;
+  padding: 10px 14px;
+  background: var(--card);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-weight: 600;
+}
+
+.quiz-opt:hover {
+  background: var(--cyan-soft);
+}
+
+.quiz-opt input {
+  margin-left: 10px;
+}
+
+.quiz-btn {
+  background: linear-gradient(120deg, #dc2626, #b91c1c);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 800;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 14px rgba(185, 28, 28, 0.3);
+}
+
+.quiz-result {
+  margin-top: 15px;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 800;
+  display: none;
+}
+
+/* ============ רפלקציה ============ */
+.ref-form label {
+  display: block;
+  font-weight: 700;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.ref-form textarea, .ref-form input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--panel-border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Assistant', sans-serif;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 /* ============ כפתור מצב תצוגה ============ */
@@ -661,9 +708,8 @@ footer {
   h1 { font-size: 26px; }
   .darkBtn { top: 12px; left: 12px; width: 40px; height: 40px; font-size: 16px; }
   .panel { padding: 18px 12px; }
-  .hero-image img { width: 100px; height: 100px; }
+  .hero-image img { width: 90px; height: 90px; }
   .tab-btn { width: 100%; justify-content: center; }
-  .bot-avatar { width: 68px; height: 68px; }
 
   .bot-widget:not(.collapsed) {
     width: calc(100vw - 44px);
@@ -680,36 +726,36 @@ footer {
 
 <header>
   <nav class="navbar">
-    <a class="nav-btn outline" href="#tabs-section">⚡ עברו ישר למעבדת הרכיבים</a>
-    <a class="nav-btn solid" href="https://gemini.google.com/gem/13FFjtbW5S3yg0EE1qBEQiP8GEMwoepKu?usp=sharing" target="_blank" rel="noopener">🖥️ אקדמיית האחוואנים</a>
+    <a class="nav-btn outline" href="#tabs-section">🌐 עברו למעבדת השכבות</a>
+    <a class="nav-btn solid" href="#quiz-section">📝 למבדק האינטראקטיבי</a>
   </nav>
 
   <div class="hero-row">
     <div class="hero-image">
-      <img src="https://lh3.googleusercontent.com/d/1oIkZlLHZWtFgoDblyxziTALQZwsyxAOo" alt="אווטר" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #b91c1c; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.2); background: #fff;">
+      <img src="https://lh3.googleusercontent.com/d/1oIkZlLHZWtFgoDblyxziTALQZwsyxAOo" alt="אווטר">
     </div>
     <div class="hero-text">
       <div class="statusbar">
         <span class="dot"></span>
-        <span>session: hardware_mastery</span>
+        <span>session: osi_model_mastery</span>
         <span class="sep">//</span>
-        <span>academy.hardware.local</span>
+        <span>academy.osi.local</span>
         <span class="sep">//</span>
-        <span>192.168.1.0/24</span>
+        <span>7_layers_deep</span>
       </div>
       
       <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 8px;">
-        <span style="background: rgba(185, 28, 28, 0.1); color: #b91c1c; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px;">🔥 שיעור מטורלל: רכיבי רשת</span>
-        <h1 style="font-size: 22px; font-weight: 800; color: #b91c1c; margin: 0; letter-spacing: -0.3px;">איך הכל מתחבר אחי?</h1>
+        <span style="background: rgba(185, 28, 28, 0.1); color: #b91c1c; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px;">🔥 שיעור עומק: מודל ה-OSI</span>
+        <h1 style="font-size: 22px; font-weight: 800; color: #b91c1c; margin: 0; letter-spacing: -0.3px;">7 השכבות שמריצות את העולם!</h1>
       </div>
 
-      <p class="subtitle" style="font-size: 14px; margin: 4px 0 16px;">מסע עומק בטאבים: מהביט הבודד בכבל ועד לניתוב החכם בראוטר!</p>
+      <p class="subtitle" style="font-size: 14px; margin: 4px 0 16px;">מהאפליקציה במסך ועד לביט החשמלי בכבל: כך נראית הכמסה (Encapsulation) אמיתית!</p>
       <div class="protocol-row">
-        <span class="protocol-chip">OSI LAYERS</span>
-        <span class="protocol-chip">PDU UNITS</span>
-        <span class="protocol-chip">ETHERNET</span>
-        <span class="protocol-chip">IP ROUTING</span>
-        <span class="protocol-chip">WI-FI 6</span>
+        <span class="protocol-chip">L7: APPLICATION</span>
+        <span class="protocol-chip">L4: TRANSPORT</span>
+        <span class="protocol-chip">L3: NETWORK</span>
+        <span class="protocol-chip">L2: DATA LINK</span>
+        <span class="protocol-chip">L1: PHYSICAL</span>
       </div>
     </div>
   </div>
@@ -717,245 +763,264 @@ footer {
 
 <div class="container" id="tabs-section">
 
+  <!-- פאנל הלימוד: 7 השכבות -->
   <div class="panel">
     <div class="panel-head">
-      <h2>🔌 מעבדת רכיבי הרשת - בחרו טאב ללמידה</h2>
-      <span class="panel-tag mono">LAB_MODULE_V2.0</span>
+      <h2>🌐 7 שכבות מודל ה-OSI (Open Systems Interconnection)</h2>
+      <span class="panel-tag mono">OSI_LAYERS_EXPLORER</span>
     </div>
 
     <!-- סרגל הטאבים -->
     <div class="tabs-nav">
-      <button class="tab-btn active" onclick="openTab(event, 'pc')">💻 מחשב (PC / Host)</button>
-      <button class="tab-btn" onclick="openTab(event, 'nic')">💳 כרטיס רשת (NIC)</button>
-      <button class="tab-btn" onclick="openTab(event, 'cables')">🔌 כבלים ותשתיות</button>
-      <button class="tab-btn" onclick="openTab(event, 'switch')">🔀 סוויטש (Switch)</button>
-      <button class="tab-btn" onclick="openTab(event, 'router')">🌐 ראוטר (Router)</button>
-      <button class="tab-btn" onclick="openTab(event, 'wireless')">📡 רכיבים אלחוטיים</button>
+      <button class="tab-btn active" onclick="openTab(event, 'l7')">7. אפליקציה (Application)</button>
+      <button class="tab-btn" onclick="openTab(event, 'l6')">6. תצוגה (Presentation)</button>
+      <button class="tab-btn" onclick="openTab(event, 'l5')">5. שיחה (Session)</button>
+      <button class="tab-btn" onclick="openTab(event, 'l4')">4. תחבורה (Transport)</button>
+      <button class="tab-btn" onclick="openTab(event, 'l3')">3. רשת (Network)</button>
+      <button class="tab-btn" onclick="openTab(event, 'l2')">2. קו נתונים (Data Link)</button>
+      <button class="tab-btn" onclick="openTab(event, 'l1')">1. פיזית (Physical)</button>
     </div>
 
-    <!-- TAB 1: מחשב -->
-    <div id="pc" class="tab-content active">
+    <!-- LAYER 7 -->
+    <div id="l7" class="tab-content active">
       <div class="component-grid">
-        <div class="comp-media">
-          <img class="comp-img" src="https://images.unsplash.com/photo-1587831990711-23ca6441447b?auto=format&fit=crop&w=600&q=80" alt="מחשב קצה">
-          <div class="meta-box">
-            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layers 7 - 1 (All)</span></div>
-            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Data / Segment</span></div>
-            <div class="meta-item"><span class="meta-label">תפקיד עיקרי:</span><span class="meta-val">End-Host (מקור/יעד)</span></div>
-            <div class="meta-item"><span class="meta-label">מזהה רשתי:</span><span class="meta-val">IP & Hostname</span></div>
-          </div>
+        <div class="meta-box">
+          <div class="meta-item"><span class="meta-label">מספר שכבה:</span><span class="meta-val">Layer 7</span></div>
+          <div class="meta-item"><span class="meta-label">שם השכבה:</span><span class="meta-val">Application</span></div>
+          <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Data (נתונים)</span></div>
+          <div class="meta-item"><span class="meta-label">רכיב מרכזי:</span><span class="meta-val">דפדפן, תוכנת מייל</span></div>
         </div>
         <div class="comp-details">
-          <h3 class="comp-title">💻 מחשב קצה (Host / PC / Server)</h3>
+          <h3 class="comp-title">📱 שכבה 7 - שכבת האפליקציה (Application Layer)</h3>
           
           <div class="section-box">
-            <h4>⚡ אופן פעולה</h4>
-            <p>מחשב הוא רכיב הקצה (End-Device) שבו הכל מתחיל ונגמר! הוא מייצר את המידע בשכבת האפליקציה (למשל הודעת וואטסאפ, בקשת HTTP בדפדפן או סטרימינג ביוטיוב), עובר את כל תהליך ההכמסה (Encapsulation) דרך סטאק ה-TCP/IP, ושולח אותה החוצה. כשהוא מקבל חבילה - הוא מפרק אותה מהביטים ועד לטקסט/וידאו שאתם רואים במסך.</p>
+            <h4>⚡ תפקיד השכבה</h4>
+            <p>השכבה הראשונה שבאמצעותה המשתמש מקיים אינטראקציה עם הרשת. היא מספקת את ממשקי התקשורת והפרוטוקולים ישירות לאפליקציות שלכם (דפדפן האינטרנט, תוכנת ה-Email, או תוכנת העברת הקבצים).</p>
           </div>
 
           <div class="section-box" style="border-color: var(--green);">
-            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <h4 style="color: var(--green);">🛠️ פרוטוקולים מרכזיים</h4>
             <div class="spec-grid">
-              <div class="spec-card"><span>כתובת לוגית</span><b>IP Address (IPv4/IPv6)</b></div>
-              <div class="spec-card"><span>מערכת הפעלה</span><b>Windows / Linux / macOS</b></div>
-              <div class="spec-card"><span>פרוטוקולי יישום</span><b>HTTP, HTTPS, FTP, DNS</b></div>
-              <div class="spec-card"><span>ניהול פורטים</span><b>Sockets (1-65535)</b></div>
+              <div class="spec-card"><span>גלישה באינטרנט</span><b>HTTP / HTTPS</b></div>
+              <div class="spec-card"><span>שירותי שמות</span><b>DNS</b></div>
+              <div class="spec-card"><span>דואר אלקטרוני</span><b>SMTP / IMAP / POP3</b></div>
+              <div class="spec-card"><span>העברת קבצים</span><b>FTP / SFTP</b></div>
             </div>
           </div>
 
           <div class="section-box" style="border-color: var(--amber);">
             <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-            <p>המחשב מריץ טבלת ARP פנימית! תרשמו ב-CMD שלכם <span class="mono">arp -a</span> ותראו איך המחשב זוכר איזה כתובת IP שייכת לאיזה כתובת MAC פיזית ברשת המקומית שלכם!</p>
+            <p>שימו לב! הדפדפן עצמו (Chrome / Firefox) הוא לא השכבה, אלא **הפרוטוקול שהדפדפן מדבר בו** (כמו HTTP) הוא זה שחי בשכבה 7!</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 2: כרטיס רשת -->
-    <div id="nic" class="tab-content">
+    <!-- LAYER 6 -->
+    <div id="l6" class="tab-content">
       <div class="component-grid">
-        <div class="comp-media">
-          <img class="comp-img" src="https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=600&q=80" alt="כרטיס רשת">
-          <div class="meta-box">
-            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layer 2 (Data Link)</span></div>
-            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Frame (מסגרת)</span></div>
-            <div class="meta-item"><span class="meta-label">כתובת מובנית:</span><span class="meta-val">MAC Address (48 bit)</span></div>
-            <div class="meta-item"><span class="meta-label">חיבור פיזי:</span><span class="meta-val">PCIe / Integrated</span></div>
-          </div>
+        <div class="meta-box">
+          <div class="meta-item"><span class="meta-label">מספר שכבה:</span><span class="meta-val">Layer 6</span></div>
+          <div class="meta-item"><span class="meta-label">שם השכבה:</span><span class="meta-val">Presentation</span></div>
+          <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Data (נתונים)</span></div>
+          <div class="meta-item"><span class="meta-label">תפקיד מפתח:</span><span class="meta-val">תרגום, הצפנה, דחיסה</span></div>
         </div>
         <div class="comp-details">
-          <h3 class="comp-title">💳 כרטיס רשת (Network Interface Card - NIC)</h3>
+          <h3 class="comp-title">🎨 שכבה 6 - שכבת התצוגה (Presentation Layer)</h3>
           
           <div class="section-box">
-            <h4>⚡ אופן פעולה</h4>
-            <p>הכרטיס רשת הוא המתרגם והשומר בכניסה למחשב! הוא לוקח את המידע הדיגיטלי מהמעבד והזיכרון, מקודד אותו לאותות חשמליים, אופטיים או גלי רדיו, ושולח אותו לתווך התקשורת. בנוסף, על כרטיס הרשת צרובה כתובת ה-MAC הפיזית הבלעדית שלו שלא משתנית לעולם!</p>
+            <h4>⚡ תפקיד השכבה</h4>
+            <p>השכבה שדואגת שהמידע יגיע בפורמט שהמקבל יוכל להבין! היא מבצעת תרגום בין קידודים שונים (למשל ASCII ל-UTF-8), דוחסת את המידע כדי שיטוס מהר יותר, ומבצעת הצפנה (Encryption) ופענוח (Decryption) לשמירה על אבטחה.</p>
           </div>
 
           <div class="section-box" style="border-color: var(--green);">
-            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <h4 style="color: var(--green);">🛠️ פורמטים ופרוטוקולים נפוצים</h4>
             <div class="spec-grid">
-              <div class="spec-card"><span>מבנה MAC</span><b>Hexadecimal (6 Bytes)</b></div>
-              <div class="spec-card"><span>קצב תעבורה</span><b>1Gbps / 2.5Gbps / 10Gbps</b></div>
-              <div class="spec-card"><span>מחבר נפוץ</span><b>RJ-45 / SFP+</b></div>
-              <div class="spec-card"><span>מצב עבודה</span><b>Full-Duplex (שידור וקליטה)</b></div>
+              <div class="spec-card"><span>הצפנת אבטחה</span><b>SSL / TLS</b></div>
+              <div class="spec-card"><span>פורמטי תמונות</span><b>JPEG, PNG, GIF</b></div>
+              <div class="spec-card"><span>פורמטי וידאו/סאונד</span><b>MP4, MP3, WAV</b></div>
+              <div class="spec-card"><span>קידוד טקסט</span><b>ASCII, Unicode</b></div>
             </div>
           </div>
 
           <div class="section-box" style="border-color: var(--amber);">
             <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-            <p>3 הבייטים הראשונים בכתובת ה-MAC נקראים OUI! הם מזהים מאיזה יצרן הכרטיס (Intel, Cisco, Realtek). אפשר לדעת איזה חברה יצרה את הרכיב רק לפי ה-MAC!</p>
+            <p>כשאתם נכנסים לאתר מאובטח והמנעול הירוק דולק (HTTPS), הצפנת ה-TLS מתרחשת בשכבה הזו בדיוק!</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 3: כבלים ותשתיות -->
-    <div id="cables" class="tab-content">
+    <!-- LAYER 5 -->
+    <div id="l5" class="tab-content">
       <div class="component-grid">
-        <div class="comp-media">
-          <img class="comp-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80" alt="כבלי רשת">
-          <div class="meta-box">
-            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layer 1 (Physical)</span></div>
-            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Bits (0101011)</span></div>
-            <div class="meta-item"><span class="meta-label">סוג התקן:</span><span class="meta-val">UTP / STP / Fiber</span></div>
-            <div class="meta-item"><span class="meta-label">ראש מחבר:</span><span class="meta-val">RJ-45 / LC / SC</span></div>
-          </div>
+        <div class="meta-box">
+          <div class="meta-item"><span class="meta-label">מספר שכבה:</span><span class="meta-val">Layer 5</span></div>
+          <div class="meta-item"><span class="meta-label">שם השכבה:</span><span class="meta-val">Session</span></div>
+          <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Data (נתונים)</span></div>
+          <div class="meta-item"><span class="meta-label">תפקיד מפתח:</span><span class="meta-val">ניהול שיחות ותאום</span></div>
         </div>
         <div class="comp-details">
-          <h3 class="comp-title">🔌 כבלי תקשורת ותשתיות פיזיות</h3>
+          <h3 class="comp-title">🗣️ שכבה 5 - שכבת השיחה (Session Layer)</h3>
           
           <div class="section-box">
-            <h4>⚡ אופן פעולה</h4>
-            <p>העורקים של האינטרנט! התפקיד שלהם הוא להעביר ביטים (0 ו-1) בצורה המהירה והאמינה ביותר. בכבלי נחושת המידע עובר כפולסים חשמליים, ובסיבים אופטיים המידע טס כגלי אור מטורפים בתוך זכוכית דקה הדוקה!</p>
+            <h4>⚡ תפקיד השכבה</h4>
+            <p>המרכזיה שמנהלת את הדיאלוג! שכבה זו אחראית לפתוח, לשמור ולסגור את ה"שיחות" (Sessions) בין שני מחשבים ברשת. היא דואגת שהתקשורת תישאר פתוחה כל עוד מעבירים מידע, ותסגר מיד כשמסיימים כדי לא לבזבז משאבים.</p>
           </div>
 
           <div class="section-box" style="border-color: var(--green);">
-            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <h4 style="color: var(--green);">🛠️ טכנולוגיות ופרוטוקולים</h4>
             <div class="spec-grid">
-              <div class="spec-card"><span>CAT 6 / CAT 6A</span><b>עד 10Gbps (מרחק 55m/100m)</b></div>
-              <div class="spec-card"><span>סיב אופטי Single-Mode</span><b>למרחקים ענקיים (עשרות ק"מ)</b></div>
-              <div class="spec-card"><span>סיב אופטי Multi-Mode</span><b>למרחקים קצרים (בתוך דאטה סנטר)</b></div>
-              <div class="spec-card"><span>תקן חיווט</span><b>T568B / T568A</b></div>
+              <div class="spec-card"><span>ניהול שיחות</span><b>NetBIOS</b></div>
+              <div class="spec-card"><span>שיתוף קבצים</span><b>SMB / RPC</b></div>
+              <div class="spec-card"><span>פרוטוקול מנהרה</span><b>PPTP</b></div>
+              <div class="spec-card"><span>סנכרון</span><b>Checkpoints (נקודות ביקורת)</b></div>
             </div>
           </div>
 
           <div class="section-box" style="border-color: var(--amber);">
             <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-            <p>זוכרים כבל מוצלב (Crossover) וכבל ישר (Straight-Through)? היום לרוב הסוויצ'ים יש מנגנון מטורף שנקרא Auto-MDIX שמשנה את הפורט אוטומטית גם אם טעיתם בסוג הכבל!</p>
+            <p>שכבת השיחה מציבה "Checkpoints" במהלך הורדת קבצים גדולים. אם החיבור מתנתק באמצע, היא יודעת להמשיך בדיוק מהנקודה שנעצרה ולא להתחיל מחדש!</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 4: סוויטש -->
-    <div id="switch" class="tab-content">
+    <!-- LAYER 4 -->
+    <div id="l4" class="tab-content">
       <div class="component-grid">
-        <div class="comp-media">
-          <img class="comp-img" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80" alt="מתג סוויטש">
-          <div class="meta-box">
-            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layer 2 (Data Link)</span></div>
-            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Frame (מסגרת)</span></div>
-            <div class="meta-item"><span class="meta-label">טבלה מרכזית:</span><span class="meta-val">MAC Address Table</span></div>
-            <div class="meta-item"><span class="meta-label">טכנולוגיית ליבה:</span><span class="meta-val">VLANs, Trunk, STP</span></div>
-          </div>
+        <div class="meta-box">
+          <div class="meta-item"><span class="meta-label">מספר שכבה:</span><span class="meta-val">Layer 4</span></div>
+          <div class="meta-item"><span class="meta-label">שם השכבה:</span><span class="meta-val">Transport</span></div>
+          <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Segment (סגמנט)</span></div>
+          <div class="meta-item"><span class="meta-label">רכיב זיהוי:</span><span class="meta-val">Port Numbers (פורטים)</span></div>
         </div>
         <div class="comp-details">
-          <h3 class="comp-title">🔀 מתג רשת (Switch - L2)</h3>
+          <h3 class="comp-title">🚚 שכבה 4 - שכבת התחבורה (Transport Layer)</h3>
           
           <div class="section-box">
-            <h4>⚡ אופן פעולה</h4>
-            <p>הסוויטש הוא המרכזיה החכמה של הרשת המקומית (LAN). כשמגיעה אליו מסגרת (Frame), הוא מסתכל על כתובת ה-MAC של היעד, בודק בטבלת ה-MAC הפיזית שלו באיזה פורט היעד נמצא, ושולח את המידע **רק לפורט הזה**! בשונה מהרכזת הישנה (Hub) שהיתה צועקת לכולם (Broadcast).</p>
+            <h4>⚡ תפקיד השכבה</h4>
+            <p>אחראית על העברת הנתונים בין תהליכים (Process-to-Process). היא קוטעת את המידע הפיזי למקגעים קטנים (Segments), ומצמידה מספרי פורטים (Ports) כדי לדעת לאיזה אפליקציה המידע שייך במחשב (למשל פורט 80 לגלישה, פורט 25 למייל).</p>
           </div>
 
           <div class="section-box" style="border-color: var(--green);">
-            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <h4 style="color: var(--green);">🛠️ שני הפרוטוקולים המובילים</h4>
             <div class="spec-grid">
-              <div class="spec-card"><span>חלוקת רשתות</span><b>VLANs (802.1Q)</b></div>
-              <div class="spec-card"><span>חיבור בין סוויצ'ים</span><b>Trunk Port (802.1Q Tagging)</b></div>
-              <div class="spec-card"><span>אבטחת פורטים</span><b>Port Security (Sticky MAC)</b></div>
-              <div class="spec-card"><span>מניעת לולאות</span><b>STP (Spanning Tree Protocol)</b></div>
+              <div class="spec-card"><span>TCP (אמין ומאומת)</span><b>Three-Way Handshake, אישורים</b></div>
+              <div class="spec-card"><span>UDP (מהיר וקליל)</span><b>ללא אישור קבלה, מעולה לסטרימינג</b></div>
+              <div class="spec-card"><span>טווח פורטים</span><b>0 עד 65,535</b></div>
+              <div class="spec-card"><span>בקרת זרימה</span><b>Windowing & Flow Control</b></div>
             </div>
           </div>
 
           <div class="section-box" style="border-color: var(--amber);">
             <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-            <p>אם הסוויטש לא מכיר את כתובת ה-MAC של היעד, הוא יבצע היצפה (Unknown Unicast Flooding) וישלח את המסגרת לכל הפורטים חוץ מהפורט שנכנסה ממנו, עד שהוא ילמד אותה!</p>
+            <p>זוכרים? TCP שולח מכתב רשום עם אישור מסירה (SYN -> SYN-ACK -> ACK). לעומתו, UDP מטיף חבילות באוויר כמו ספאם ואינו בודק אם קיבלתם!</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 5: ראוטר -->
-    <div id="router" class="tab-content">
+    <!-- LAYER 3 -->
+    <div id="l3" class="tab-content">
       <div class="component-grid">
-        <div class="comp-media">
-          <img class="comp-img" src="https://images.unsplash.com/photo-1606904825846-647eb07f5be2?auto=format&fit=crop&w=600&q=80" alt="נתב ראוטר">
-          <div class="meta-box">
-            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layer 3 (Network)</span></div>
-            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Packet (חבילה)</span></div>
-            <div class="meta-item"><span class="meta-label">טבלה מרכזית:</span><span class="meta-val">Routing Table</span></div>
-            <div class="meta-item"><span class="meta-label">תפקיד על:</span><span class="meta-val">מחבר בין רשתות שונות</span></div>
-          </div>
+        <div class="meta-box">
+          <div class="meta-item"><span class="meta-label">מספר שכבה:</span><span class="meta-val">Layer 3</span></div>
+          <div class="meta-item"><span class="meta-label">שם השכבה:</span><span class="meta-val">Network</span></div>
+          <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Packet (חבילה)</span></div>
+          <div class="meta-item"><span class="meta-label">רכיב רשת:</span><span class="meta-val">ראוטר (Router)</span></div>
         </div>
         <div class="comp-details">
-          <h3 class="comp-title">🌐 נתב (Router - L3)</h3>
+          <h3 class="comp-title">🌐 שכבה 3 - שכבת הרשת (Network Layer)</h3>
           
           <div class="section-box">
-            <h4>⚡ אופן פעולה</h4>
-            <p>הראוטר הוא מנהל התנועה העולמי! התפקיד שלו הוא לקשר בין רשתות שונות נפרדות (למשל הרשת הביתית שלכם לרשת האינטרנט העולמית). הראוטר בוחן את כתובת ה-IP של היעד בכל חבילה, בודק בטבלת הניתוב שלו (Routing Table) מה המניע/הנתיב הכי טוב להגיע לשם, ומעביר אותה הלאה.</p>
+            <h4>⚡ תפקיד השכבה</h4>
+            <p>שכבת הניתוב והכתובות הלוגיות! היא אחראית על העברת החבילות (Packets) מקצה לקצה בין רשתות שונות ונפרדות. השכבה מוסיפה לכל חבילה את כתובת ה-IP של המקור ואת כתובת ה-IP של היעד ומחליטה באיזה נתיב הכי כדאי לנתב אותה.</p>
           </div>
 
           <div class="section-box" style="border-color: var(--green);">
-            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <h4 style="color: var(--green);">🛠️ טכנולוגיות ופרוטוקולים</h4>
             <div class="spec-grid">
-              <div class="spec-card"><span>סוגי ניתוב</span><b>Static Routing / Dynamic (OSPF, RIP)</b></div>
-              <div class="spec-card"><span>תרגום כתובות</span><b>NAT / PAT (Public vs Private IP)</b></div>
-              <div class="spec-card"><span>חלוקת IP</span><b>DHCP Server / Relay</b></div>
-              <div class="spec-card"><span>ניתוב בין VLANs</span><b>Router-on-a-Stick (Sub-Interfaces)</b></div>
+              <div class="spec-card"><span>כתובות לוגיות</span><b>IPv4 / IPv6</b></div>
+              <div class="spec-card"><span>פרוטוקול בקרה</span><b>ICMP (Ping / Traceroute)</b></div>
+              <div class="spec-card"><span>פרוטוקולי ניתוב</span><b>OSPF, BGP, RIP</b></div>
+              <div class="spec-card"><span>רכיב חומרה</span><b>Router / L3 Switch</b></div>
             </div>
           </div>
 
           <div class="section-box" style="border-color: var(--amber);">
             <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-            <p>ראוטר עוצר הודעות Broadcast! שום הודעת הצפה מ-VLAN אחד לא תעבור דרך הראוטר ל-VLAN אחר אלא אם הגדרתם ניתוב במפורש. הוא השומר של גבולות הרשת!</p>
+            <p>בכל פעם שאתם מריצים <span class="mono">ping 8.8.8.8</span> ב-CMD, אתם מפעילים הודעת ICMP בשכבה 3 ובודקים את הקישוריות שלכם!</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 6: רכיבים אלחוטיים -->
-    <div id="wireless" class="tab-content">
+    <!-- LAYER 2 -->
+    <div id="l2" class="tab-content">
       <div class="component-grid">
-        <div class="comp-media">
-          <img class="comp-img" src="https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80" alt="רכיבים אלחוטיים WAP">
-          <div class="meta-box">
-            <div class="meta-item"><span class="meta-label">שכבת OSI:</span><span class="meta-val">Layers 1 & 2 (Wi-Fi)</span></div>
-            <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Radio Frames (802.11)</span></div>
-            <div class="meta-item"><span class="meta-label">תדרים נפוצים:</span><span class="meta-val">2.4GHz / 5GHz / 6GHz</span></div>
-            <div class="meta-item"><span class="meta-label">תקן מרכזי:</span><span class="meta-val">IEEE 802.11ax (Wi-Fi 6)</span></div>
-          </div>
+        <div class="meta-box">
+          <div class="meta-item"><span class="meta-label">מספר שכבה:</span><span class="meta-val">Layer 2</span></div>
+          <div class="meta-item"><span class="meta-label">שם השכבה:</span><span class="meta-val">Data Link</span></div>
+          <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Frame (מסגרת)</span></div>
+          <div class="meta-item"><span class="meta-label">רכיב רשת:</span><span class="meta-val">סוויטש, כרטיס רשת</span></div>
         </div>
         <div class="comp-details">
-          <h3 class="comp-title">📡 רכיבי גישה אלחוטיים (Access Point / Wireless Router)</h3>
+          <h3 class="comp-title">🔗 שכבה 2 - שכבת קו הנתונים (Data Link Layer)</h3>
           
           <div class="section-box">
-            <h4>⚡ אופן פעולה</h4>
-            <p>נקודת גישה אלחוטית (AP) ממירה את האותות החשמליים שמגיעים מהסוויטש הקווי לגלי רדיו באוויר. היא משדרת את שם הרשת (SSID) ומאפשרת למכשירים ניידים להתחבר לרשת הקווית ללא כבלים. הראוטר הביתי שלכם הוא למעשה רכיב משולב: ראוטר + סוויטש + נקודת גישה אלחוטית בקופסה אחת!</p>
+            <h4>⚡ תפקיד השכבה</h4>
+            <p>שכבת התקשורת ברשת המקומית (LAN)! היא עושה אריזה מחדש של המידע ל-Frames (מסגרות) ומצמידה להן כתובות פיזיות (MAC Addresses). היא מבטיחה שהמידע יעבור בבטחה ובלי שגיאות בין שני רכיבים הנמצאים באותו המקטע הפיזי.</p>
           </div>
 
           <div class="section-box" style="border-color: var(--green);">
-            <h4 style="color: var(--green);">🛠️ נתונים טכניים מרכזיים</h4>
+            <h4 style="color: var(--green);">🛠️ רכיבים ופרוטוקולים</h4>
             <div class="spec-grid">
-              <div class="spec-card"><span>אבטחה אלחוטית</span><b>WPA2-Personal / WPA3-Enterprise</b></div>
-              <div class="spec-card"><span>תדר 2.4GHz</span><b>טווח ארוך, חודר קירות, איטי יותר</b></div>
-              <div class="spec-card"><span>תדר 5GHz</span><b>מהיר מאוד, טווח קצר, פחות הפרעות</b></div>
-              <div class="spec-card"><span>מנגנון גישה</span><b>CSMA/CA (Collision Avoidance)</b></div>
+              <div class="spec-card"><span>כתובת פיזית</span><b>MAC Address (48 Bit)</b></div>
+              <div class="spec-card"><span>תקן רשת קווית</span><b>Ethernet (802.3)</b></div>
+              <div class="spec-card"><span>תרגום IP ל-MAC</span><b>ARP Protocol</b></div>
+              <div class="spec-card"><span>חומרה נפוצה</span><b>Switch / NIC / Bridge</b></div>
             </div>
           </div>
 
           <div class="section-box" style="border-color: var(--amber);">
             <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-            <p>ברשת קווית משתמשים ב-CSMA/CD (זיהוי התנגשויות), אבל באוויר אי אפשר לזהות התנגשות תוך כדי שידור, ולכן באלחוט משתמשים ב-CSMA/CA (מניעת התנגשויות מראש)!</p>
+            <p>שכבה 2 מחולקת לשתי תתי-שכבות: LLC (בקרת קישור לוגי) ו-MAC (בקרת גישה למדיה). הסוויטש שלכם עובד בדיוק בשכבה הזו!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAYER 1 -->
+    <div id="l1" class="tab-content">
+      <div class="component-grid">
+        <div class="meta-box">
+          <div class="meta-item"><span class="meta-label">מספר שכבה:</span><span class="meta-val">Layer 1</span></div>
+          <div class="meta-item"><span class="meta-label">שם השכבה:</span><span class="meta-val">Physical</span></div>
+          <div class="meta-item"><span class="meta-label">יחידת מידע (PDU):</span><span class="meta-val">Bits (0 ו-1)</span></div>
+          <div class="meta-item"><span class="meta-label">רכיבים:</span><span class="meta-val">כבלים, אנטנות, רכזות</span></div>
+        </div>
+        <div class="comp-details">
+          <h3 class="comp-title">🔌 שכבה 1 - השכבה הפיזית (Physical Layer)</h3>
+          
+          <div class="section-box">
+            <h4>⚡ תפקיד השכבה</h4>
+            <p>הקרקע המוצקה של הרשת! השכבה הפיזית אחראית על העברת הביטים הגולמיים (01010101) על גבי התווך הפיזי. היא ממירה את הביטים לפולסים חשמליים (בכבלי נחושת), פולסים של אור (בסיבים אופטיים), או גלי רדיו (ב-Wi-Fi).</p>
+          </div>
+
+          <div class="section-box" style="border-color: var(--green);">
+            <h4 style="color: var(--green);">🛠️ תשתיות וציוד</h4>
+            <div class="spec-grid">
+              <div class="spec-card"><span>כבל נחושת</span><b>UTP Cat6 / RJ-45</b></div>
+              <div class="spec-card"><span>סיב אופטי</span><b>Single / Multi-Mode</b></div>
+              <div class="spec-card"><span>רכיבים ישנים</span><b>Hub / Repeaters</b></div>
+              <div class="spec-card"><span>אלחוט</span><b>גלי רדיו (2.4/5GHz)</b></div>
+            </div>
+          </div>
+
+          <div class="section-box" style="border-color: var(--amber);">
+            <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+            <p>כשאומרים בטכנאות "בעיית Layer 1", מתכוונים בדרך כלל לפתרון הכי יסודי: הכבל יצא מהמקום או נתלש! תמיד תבדקו את הכבל קודם.</p>
           </div>
         </div>
       </div>
@@ -963,9 +1028,67 @@ footer {
 
   </div>
 
+  <!-- פאנל המבדק האינטראקטיבי -->
+  <div class="panel" id="quiz-section">
+    <div class="panel-head">
+      <h2>📝 מבדק ידע אינטראקטיבי: מודל ה-OSI</h2>
+      <span class="panel-tag mono">KNOWLEDGE_CHECK</span>
+    </div>
+
+    <form id="quizForm">
+      <div class="quiz-q">
+        <h4>1. באיזו שכבה במודל ה-OSI פועל נתב (Router)?</h4>
+        <label class="quiz-opt"><input type="radio" name="q1" value="a"> שכבה 2 (Data Link)</label>
+        <label class="quiz-opt"><input type="radio" name="q1" value="b"> שכבה 3 (Network)</label>
+        <label class="quiz-opt"><input type="radio" name="q1" value="c"> שכבה 4 (Transport)</label>
+      </div>
+
+      <div class="quiz-q">
+        <h4>2. מהי יחידת המידע (PDU) בשכבה 4 (Transport Layer)?</h4>
+        <label class="quiz-opt"><input type="radio" name="q2" value="a"> Packet (חבילה)</label>
+
+        <label class="quiz-opt"><input type="radio" name="q2" value="b"> Frame (מסגרת)</label>
+        <label class="quiz-opt"><input type="radio" name="q2" value="c"> Segment (סגמנט)</label>
+      </div>
+
+      <div class="quiz-q">
+        <h4>3. באיזו שכבה מתרחשת הצפנת נתונים (כמו SSL/TLS) או דחיסה?</h4>
+        <label class="quiz-opt"><input type="radio" name="q3" value="a"> שכבה 6 (Presentation)</label>
+        <label class="quiz-opt"><input type="radio" name="q3" value="b"> שכבה 7 (Application)</label>
+        <label class="quiz-opt"><input type="radio" name="q3" value="c"> שכבה 5 (Session)</label>
+      </div>
+
+      <button type="button" class="quiz-btn" onclick="checkQuiz()">בדוק תשובות 🚀</button>
+    </form>
+
+    <div id="quizResult" class="quiz-result"></div>
+  </div>
+
+  <!-- פאנל רפלקציה -->
+  <div class="panel">
+    <div class="panel-head">
+      <h2>🧠 שאלון רפלקציה לסיכום השיעור</h2>
+      <span class="panel-tag mono">STUDENT_REFLECTION</span>
+    </div>
+
+    <div class="ref-form">
+      <label for="ref1">1. מה הדבר החדש או הכי מעניין שלמדת היום על מודל ה-OSI?</label>
+      <textarea id="ref1" rows="3" placeholder="כתוב כאן את התשובה שלך..."></textarea>
+
+      <label for="ref2">2. באיזו שכבה לדעתך הכי קל להבין תקלות רשת, ובאיזו הכי מורכב? הסבר בקצרה.</label>
+      <textarea id="ref2" rows="3" placeholder="שתף אותנו במחשבות שלך..."></textarea>
+
+      <label for="ref3">3. תן דוגמה מהחיים לשימוש בפורט או בכתובת IP/MAC שלמדת עליה השיעור:</label>
+      <input type="text" id="ref3" placeholder="לדוגמה: כשאני מריץ Ping לאתר...">
+
+      <button type="button" class="quiz-btn" style="background: var(--green); margin-top: 10px;" onclick="saveReflection()">שמור רפלקציה 💾</button>
+    </div>
+    <div id="refResult" class="quiz-result" style="background: var(--green-soft); color: var(--green); border: 1px solid var(--green);"></div>
+  </div>
+
 </div>
 
-<!-- 🤖 צומת העוזר המקורי -->
+<!-- 🤖 צומת העוזר הצף -->
 <div class="bot-widget collapsed" id="botWidget" onclick="expandBot(event)">
     <div class="bot-header" onclick="toggleBot(event)">
         <span class="dot"></span> <span>NODE: DAN-GPT // ONLINE</span>
@@ -976,18 +1099,13 @@ footer {
         <img class="bot-avatar" src="https://lh3.googleusercontent.com/d/1fzqv93VKIW_VT8-e1HdJxBmbU2sFnwlb" alt="דן GPT עוזר הפרויקט">
 
         <p class="greet">שלום תלמידים 👋</p>
-        <p class="lead">אני דן GPT, עוזר השיעור והפרויקט שלכם. אפשר להיעזר בי ב:</p>
+        <p class="lead">אני דן GPT. משהו לא ברור במודל ה-OSI? צריכים עזרה במעבדה?</p>
 
         <div class="bot-chips">
-            <span class="bot-chip">Packet Tracer</span>
-            <span class="bot-chip">VLANs</span>
-            <span class="bot-chip">DHCP</span>
-            <span class="bot-chip">DNS</span>
-            <span class="bot-chip">OSI Model</span>
-            <span class="bot-chip">Static Routing</span>
-            <span class="bot-chip">Troubleshooting</span>
-            <span class="bot-chip">כבלי תקשורת</span>
-            <span class="bot-chip">Wi-Fi 6</span>
+            <span class="bot-chip">OSI Layers</span>
+            <span class="bot-chip">TCP vs UDP</span>
+            <span class="bot-chip">IP Routing</span>
+            <span class="bot-chip">MAC Address</span>
         </div>
 
         <a class="bot-btn" href="https://gemini.google.com/gem/13FFjtbW5S3yg0EE1qBEQiP8GEMwoepKu?usp=sharing" target="_blank" rel="noopener">
@@ -997,7 +1115,7 @@ footer {
 </div>
 
 <footer>
-  session: רכיבי רשת תקשורת // אקדמיית האחוואנים // מודל OSI & PDU // בהצלחה 💪
+  session: מודל ה-OSI בכיף // אקדמיית האחוואנים // כל 7 השכבות במקום אחד // בהצלחה 💪
 </footer>
 
 <script>
@@ -1022,6 +1140,45 @@ function toggleDark(){
   document.body.classList.toggle("dark");
   const btn = document.getElementById("darkToggleBtn");
   btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+
+function checkQuiz() {
+  var score = 0;
+  var q1 = document.querySelector('input[name="q1"]:checked');
+  var q2 = document.querySelector('input[name="q2"]:checked');
+  var q3 = document.querySelector('input[name="q3"]:checked');
+  
+  if (q1 && q1.value === 'b') score++;
+  if (q2 && q2.value === 'c') score++;
+  if (q3 && q3.value === 'a') score++;
+  
+  var res = document.getElementById('quizResult');
+  res.style.display = 'block';
+  
+  if (score === 3) {
+    res.style.background = 'var(--green-soft)';
+    res.style.color = 'var(--green)';
+    res.style.border = '1px solid var(--green)';
+    res.innerHTML = '🏆 אלופים! עניתם נכון על 3/3 השאלות! אתם מאסטרים במודל ה-OSI!';
+  } else {
+    res.style.background = 'var(--amber-soft)';
+    res.style.color = 'var(--amber)';
+    res.style.border = '1px solid var(--amber)';
+    res.innerHTML = 'תקנתם ' + score + ' מתוך 3 תשובות נכונות. עברו שוב על הטאבים ונסו שוב!';
+  }
+}
+
+function saveReflection() {
+  var r1 = document.getElementById('ref1').value;
+  var res = document.getElementById('refResult');
+  
+  if(r1.trim() === '') {
+    alert('אנא למלא לפחות את השאלה הראשונה ברפלקציה 🙂');
+    return;
+  }
+  
+  res.style.display = 'block';
+  res.innerHTML = '🎉 הרפלקציה נשמרה בהצלחה! עבודה מצוינת.';
 }
 
 function toggleBot(evt){
