@@ -72,12 +72,43 @@ body {
 
 .mono { font-family: 'JetBrains Mono', monospace; }
 
+/* ============ סטרייפ נע (TICKER) ============ */
+.ticker-bar {
+  background: linear-gradient(90deg, #991b1b, #dc2626, #b91c1c);
+  color: #ffffff;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 8px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(185, 28, 28, 0.3);
+  position: relative;
+  z-index: 10;
+}
+
+.ticker-wrapper {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+}
+
+.ticker-item {
+  display: inline-block;
+  padding: 0 30px;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
 /* ============ HEADER ============ */
 header {
   position: relative;
   background: linear-gradient(160deg, #fbf3e2 0%, #f7ecd6 55%, #f9efdb 100%);
   color: #b91c1c;
-  padding: 34px 20px 46px;
+  padding: 24px 20px 40px;
   text-align: center;
   overflow: hidden;
   border-bottom: 1px solid rgba(185, 28, 28, 0.22);
@@ -125,41 +156,40 @@ header::before {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 14px;
+  justify-content: center;
+  gap: 12px;
   max-width: 1300px;
-  margin: 0 auto 30px;
+  margin: 0 auto 20px;
   flex-wrap: wrap;
 }
 
 .nav-btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 10px 18px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
+  padding: 8px 16px;
   border-radius: 11px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   border: none;
-  transition: transform 0.18s ease, opacity 0.18s ease;
-  letter-spacing: 0.2px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .nav-btn:hover { transform: translateY(-2px); }
 
 .nav-btn.outline {
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(185, 28, 28, 0.4);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(185, 28, 28, 0.35);
   color: #b91c1c;
 }
 
 .nav-btn.solid {
   background: linear-gradient(120deg, #dc2626, #b91c1c);
-  color: #fff5f0;
-  box-shadow: 0 8px 22px -6px rgba(185, 28, 28, 0.5);
+  color: #fff;
+  box-shadow: 0 6px 18px -4px rgba(185, 28, 28, 0.4);
 }
 
 .statusbar {
@@ -172,7 +202,7 @@ header::before {
   font-size: 12.5px;
   letter-spacing: 0.4px;
   color: #b45309;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   flex-wrap: wrap;
 }
 
@@ -187,22 +217,44 @@ header::before {
 
 .statusbar .sep { opacity: 0.4; }
 
-h1 {
-  position: relative;
-  margin: 8px 0 6px;
-  font-family: 'Rubik', 'Assistant', sans-serif;
-  font-size: 38px;
-  font-weight: 900;
-  letter-spacing: -0.5px;
+.date-badge {
+  background: rgba(180, 83, 9, 0.12);
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(180, 83, 9, 0.25);
+  font-weight: 700;
+}
+
+/* כותרת מטורללת */
+.small-tag {
+  background: rgba(185, 28, 28, 0.12);
   color: #b91c1c;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(185, 28, 28, 0.25);
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.main-title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: #b91c1c;
+  margin: 6px 0;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
 }
 
 header p.subtitle {
   position: relative;
-  margin: 4px 0 26px;
+  margin: 6px 0 20px;
   color: #c2410c;
   font-weight: 700;
-  font-size: 17px;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .protocol-row {
@@ -506,7 +558,7 @@ header p.subtitle {
 /* ============ כפתור מצב תצוגה ============ */
 .darkBtn {
   position: fixed;
-  top: 22px;
+  top: 50px;
   left: 22px;
   width: 46px;
   height: 46px;
@@ -705,8 +757,8 @@ footer {
 }
 
 @media (max-width: 640px) {
-  h1 { font-size: 26px; }
-  .darkBtn { top: 12px; left: 12px; width: 40px; height: 40px; font-size: 16px; }
+  .main-title { font-size: 26px; }
+  .darkBtn { top: 45px; left: 12px; width: 40px; height: 40px; font-size: 16px; }
   .panel { padding: 18px 12px; }
   .hero-image img { width: 90px; height: 90px; }
   .tab-btn { width: 100%; justify-content: center; }
@@ -722,12 +774,24 @@ footer {
 
 <body>
 
+<!-- 1. סטרייפ נע בחלק העליון -->
+<div class="ticker-bar">
+  <div class="ticker-wrapper">
+    <span class="ticker-item">🔥 אקדמיית האחוואנים: שיעור עומק מטורלל על מודל ה-OSI!</span>
+    <span class="ticker-item">💡 טיפ לחיים: Layer 1 זה תמיד הכבל שאיזה מישהו ניתק בטעות...</span>
+    <span class="ticker-item">⚡ TCP = מכתב רשום עם אישור מסירה | UDP = שיגור ושכח!</span>
+    <span class="ticker-item">📝 אל תשכחו לבצע את המבדק האינטראקטיבי והרפלקציה בסוף השיעור!</span>
+  </div>
+</div>
+
 <button class="darkBtn" onclick="toggleDark()" title="החלף מצב תצוגה" id="darkToggleBtn">🌙</button>
 
 <header>
+  <!-- 2. לשוניות ניווט ומבדקים בכותרת -->
   <nav class="navbar">
-    <a class="nav-btn outline" href="#tabs-section">🌐 עברו למעבדת השכבות</a>
-    <a class="nav-btn solid" href="#quiz-section">📝 למבדק האינטראקטיבי</a>
+    <a class="nav-btn solid" href="#tabs-section">🌐 מעבדת 7 השכבות</a>
+    <a class="nav-btn outline" href="#quiz-section">📝 מבדק אמריקאי</a>
+    <a class="nav-btn outline" href="#ref-section">🧠 שאלון רפלקציה</a>
   </nav>
 
   <div class="hero-row">
@@ -735,21 +799,23 @@ footer {
       <img src="https://lh3.googleusercontent.com/d/1oIkZlLHZWtFgoDblyxziTALQZwsyxAOo" alt="אווטר">
     </div>
     <div class="hero-text">
+      <!-- 3. סרגל סטטוס כולל תאריך -->
       <div class="statusbar">
         <span class="dot"></span>
         <span>session: osi_model_mastery</span>
         <span class="sep">//</span>
-        <span>academy.osi.local</span>
+        <span class="date-badge">📅 <span id="current-date"></span></span>
         <span class="sep">//</span>
-        <span>7_layers_deep</span>
+        <span>academy.osi.local</span>
       </div>
       
-      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 8px;">
-        <span style="background: rgba(185, 28, 28, 0.1); color: #b91c1c; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px;">🔥 שיעור עומק: מודל ה-OSI</span>
-        <h1 style="font-size: 22px; font-weight: 800; color: #b91c1c; margin: 0; letter-spacing: -0.3px;">7 השכבות שמריצות את העולם!</h1>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 8px;">
+        <span class="small-tag">🔥 איך הכל מתחבר אחי?</span>
+        <h1 class="main-title">7 השכבות שמריצות את העולם!</h1>
       </div>
 
-      <p class="subtitle" style="font-size: 14px; margin: 4px 0 16px;">מהאפליקציה במסך ועד לביט החשמלי בכבל: כך נראית הכמסה (Encapsulation) אמיתית!</p>
+      <p class="subtitle">מסע עומק בטאבים: מהאפליקציה במסך ועד לביט החשמלי בכבל - כך נראית הכמסה (Encapsulation) אמיתית!</p>
+      
       <div class="protocol-row">
         <span class="protocol-chip">L7: APPLICATION</span>
         <span class="protocol-chip">L4: TRANSPORT</span>
@@ -900,7 +966,7 @@ footer {
           
           <div class="section-box">
             <h4>⚡ תפקיד השכבה</h4>
-            <p>אחראית על העברת הנתונים בין תהליכים (Process-to-Process). היא קוטעת את המידע הפיזי למקגעים קטנים (Segments), ומצמידה מספרי פורטים (Ports) כדי לדעת לאיזה אפליקציה המידע שייך במחשב (למשל פורט 80 לגלישה, פורט 25 למייל).</p>
+            <p>אחראית על העברת הנתונים בין תהליכים (Process-to-Process). היא קוטעת את המידע הפיזי למקטעים קטנים (Segments), ומצמידה מספרי פורטים (Ports) כדי לדעת לאיזה אפליקציה המידע שייך במחשב (למשל פורט 80 לגלישה, פורט 25 למייל).</p>
           </div>
 
           <div class="section-box" style="border-color: var(--green);">
@@ -1046,7 +1112,6 @@ footer {
       <div class="quiz-q">
         <h4>2. מהי יחידת המידע (PDU) בשכבה 4 (Transport Layer)?</h4>
         <label class="quiz-opt"><input type="radio" name="q2" value="a"> Packet (חבילה)</label>
-
         <label class="quiz-opt"><input type="radio" name="q2" value="b"> Frame (מסגרת)</label>
         <label class="quiz-opt"><input type="radio" name="q2" value="c"> Segment (סגמנט)</label>
       </div>
@@ -1065,7 +1130,7 @@ footer {
   </div>
 
   <!-- פאנל רפלקציה -->
-  <div class="panel">
+  <div class="panel" id="ref-section">
     <div class="panel-head">
       <h2>🧠 שאלון רפלקציה לסיכום השיעור</h2>
       <span class="panel-tag mono">STUDENT_REFLECTION</span>
@@ -1119,6 +1184,9 @@ footer {
 </footer>
 
 <script>
+// הצגת תאריך נוכחי בלייב
+document.getElementById('current-date').textContent = new Date().toLocaleDateString('he-IL');
+
 function openTab(evt, tabName) {
   var i, tabcontent, tablinks;
   
@@ -1164,7 +1232,7 @@ function checkQuiz() {
     res.style.background = 'var(--amber-soft)';
     res.style.color = 'var(--amber)';
     res.style.border = '1px solid var(--amber)';
-    res.innerHTML = 'תקנתם ' + score + ' מתוך 3 תשובות נכונות. עברו שוב על הטאבים ונסו שוב!';
+    res.innerHTML = 'עניתם ' + score + ' מתוך 3 תשובות נכונות. עברו שוב על הטאבים ונסו שוב!';
   }
 }
 
