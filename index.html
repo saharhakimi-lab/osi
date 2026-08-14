@@ -31,7 +31,7 @@
 }
 
 body.dark {
-  /* Night Ops - מצב לילה למעבר ידני */
+  /* Night Ops - מצב לילה */
   --bg: #090d16;
   --grid-line: rgba(34, 211, 238, 0.06);
   --card: #10182a;
@@ -78,11 +78,11 @@ body {
   color: #ffffff;
   overflow: hidden;
   white-space: nowrap;
-  padding: 8px 0;
+  padding: 4px 0;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 700;
-  box-shadow: 0 2px 10px rgba(185, 28, 28, 0.3);
+  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.2);
   position: relative;
   z-index: 10;
 }
@@ -103,15 +103,13 @@ body {
   100% { transform: translateX(-100%); }
 }
 
-/* ============ HEADER ============ */
+/* ============ HEADER - ULTRA COMPACT SLIM ============ */
 header {
   position: relative;
   background: linear-gradient(160deg, #fbf3e2 0%, #f7ecd6 55%, #f9efdb 100%);
   color: #b91c1c;
-  padding: 24px 20px 40px;
-  text-align: center;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(185, 28, 28, 0.22);
+  padding: 8px 20px;
+  border-bottom: 1px solid rgba(185, 28, 28, 0.2);
 }
 
 header::before {
@@ -119,176 +117,179 @@ header::before {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle at 12% 20%, rgba(185, 28, 28, 0.08), transparent 40%),
-    radial-gradient(circle at 88% 75%, rgba(217, 119, 6, 0.10), transparent 45%);
+    radial-gradient(circle at 12% 20%, rgba(185, 28, 28, 0.05), transparent 40%),
+    radial-gradient(circle at 88% 75%, rgba(217, 119, 6, 0.06), transparent 45%);
   pointer-events: none;
 }
 
-.hero-row {
+.header-container {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 34px;
   max-width: 1300px;
   margin: 0 auto;
-  flex-wrap: wrap-reverse;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* צד ימין - תמונה, כותרת ותיאור */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
 }
 
 .hero-image { flex-shrink: 0; }
 
 .hero-image img {
-  width: 120px;
-  height: 120px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #b91c1c;
-  box-shadow: 0 0 0 7px rgba(185, 28, 28, 0.12), 0 14px 30px -10px rgba(185, 28, 28, 0.35);
+  border: 2px solid #b91c1c;
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
   background: #fff;
 }
 
-.hero-text {
-  flex: 1;
-  min-width: 280px;
+.hero-titles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.small-tag {
+  background: rgba(185, 28, 28, 0.1);
+  color: #b91c1c;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 8px;
+  border: 1px solid rgba(185, 28, 28, 0.2);
+  line-height: 1.2;
+}
+
+.main-title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #b91c1c;
+  margin: 1px 0;
+  line-height: 1.1;
+}
+
+header p.subtitle {
+  margin: 0;
+  color: #c2410c;
+  font-weight: 600;
+  font-size: 11.5px;
+  line-height: 1.2;
+}
+
+/* צד שמאל - ניווט, סטטוס וצ'יפים */
+.header-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex: 0 1 auto;
 }
 
 .navbar {
-  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  max-width: 1300px;
-  margin: 0 auto 20px;
+  gap: 6px;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .nav-btn {
   font-family: 'Rubik', sans-serif;
-  font-size: 13.5px;
+  font-size: 11.5px;
   font-weight: 800;
-  padding: 8px 16px;
-  border-radius: 11px;
+  padding: 3px 9px;
+  border-radius: 6px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   cursor: pointer;
   border: none;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.15s ease;
 }
 
-.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn:hover { transform: translateY(-1px); }
 
 .nav-btn.outline {
   background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(185, 28, 28, 0.35);
+  border: 1px solid rgba(185, 28, 28, 0.3);
   color: #b91c1c;
 }
 
 .nav-btn.solid {
   background: linear-gradient(120deg, #dc2626, #b91c1c);
   color: #fff;
-  box-shadow: 0 6px 18px -4px rgba(185, 28, 28, 0.4);
 }
 
 .statusbar {
-  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 6px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12.5px;
-  letter-spacing: 0.4px;
+  font-size: 10.5px;
   color: #b45309;
-  margin-bottom: 18px;
-  flex-wrap: wrap;
 }
 
 .statusbar .dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #b91c1c;
-  box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.2);
+  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2);
   animation: pulse 1.8s ease-in-out infinite;
 }
 
 .statusbar .sep { opacity: 0.4; }
 
 .date-badge {
-  background: rgba(180, 83, 9, 0.12);
-  padding: 3px 10px;
-  border-radius: 6px;
-  border: 1px solid rgba(180, 83, 9, 0.25);
+  background: rgba(180, 83, 9, 0.1);
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(180, 83, 9, 0.2);
   font-weight: 700;
-}
-
-/* כותרת מטורללת */
-.small-tag {
-  background: rgba(185, 28, 28, 0.12);
-  color: #b91c1c;
-  font-size: 13px;
-  font-weight: 800;
-  padding: 4px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(185, 28, 28, 0.25);
-  letter-spacing: 0.5px;
-  display: inline-block;
-}
-
-.main-title {
-  font-family: 'Rubik', sans-serif;
-  font-size: 36px;
-  font-weight: 900;
-  color: #b91c1c;
-  margin: 6px 0;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-}
-
-header p.subtitle {
-  position: relative;
-  margin: 6px 0 20px;
-  color: #c2410c;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.5;
 }
 
 .protocol-row {
-  position: relative;
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  gap: 4px;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .protocol-chip {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 9.5px;
+  font-weight: 700;
   color: #b91c1c;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(185, 28, 28, 0.3);
-  padding: 6px 13px;
-  border-radius: 8px;
-  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(185, 28, 28, 0.2);
+  padding: 1px 6px;
+  border-radius: 4px;
 }
 
 /* ============ מבנה כללי ============ */
 .container {
   width: 92%;
   max-width: 1300px;
-  margin: 44px auto;
+  margin: 20px auto;
 }
 
 .panel {
   position: relative;
   background: var(--card);
-  padding: 30px;
-  margin-bottom: 30px;
+  padding: 22px;
+  margin-bottom: 22px;
   border-radius: var(--radius);
   border: 1px solid var(--panel-border);
   box-shadow: var(--shadow);
@@ -300,59 +301,58 @@ header p.subtitle {
   justify-content: space-between;
   gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
-  padding-bottom: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 1px dashed var(--panel-border);
 }
 
 .panel-head h2 {
   color: var(--text);
   font-family: 'Rubik', 'Assistant', sans-serif;
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 800;
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .panel-tag {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.6px;
   color: var(--cyan);
   background: var(--cyan-soft);
   border: 1px solid var(--panel-border);
-  padding: 4px 11px;
-  border-radius: 7px;
+  padding: 3px 8px;
+  border-radius: 6px;
   white-space: nowrap;
 }
 
 /* ============ TABS ============ */
 .tabs-nav {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   border-bottom: 2px solid var(--panel-border);
-  padding-bottom: 12px;
+  padding-bottom: 10px;
 }
 
 .tab-btn {
   font-family: 'Rubik', sans-serif;
-  font-size: 14.5px;
+  font-size: 13.5px;
   font-weight: 800;
-  padding: 10px 16px;
+  padding: 7px 13px;
   border: 1px solid var(--panel-border);
-  border-radius: 12px;
+  border-radius: 9px;
   background: var(--bg);
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .tab-btn:hover {
@@ -365,43 +365,41 @@ header p.subtitle {
   background: linear-gradient(120deg, #dc2626, #b91c1c);
   color: #ffffff;
   border-color: transparent;
-  box-shadow: 0 6px 16px rgba(185, 28, 28, 0.35);
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.25);
 }
 
 .tab-content {
   display: none;
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.25s ease-in-out;
 }
 
-.tab-content.active {
-  display: block;
-}
+.tab-content.active { display: block; }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .component-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 25px;
+  grid-template-columns: 260px 1fr;
+  gap: 20px;
 }
 
 .meta-box {
   background: var(--bg);
   border: 1px solid var(--panel-border);
   border-radius: 12px;
-  padding: 16px;
+  padding: 14px;
 }
 
 .meta-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 7px 0;
   border-bottom: 1px dashed var(--panel-border);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .meta-item:last-child { border-bottom: none; }
@@ -412,124 +410,120 @@ header p.subtitle {
 .comp-details {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
 }
 
 .comp-title {
   font-family: 'Rubik', sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 900;
   margin: 0;
   color: var(--text);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .section-box {
   background: var(--bg);
   border-right: 4px solid var(--cyan);
   border-radius: 8px;
-  padding: 16px;
+  padding: 12px;
 }
 
 .section-box h4 {
-  margin: 0 0 8px 0;
+  margin: 0 0 4px 0;
   font-family: 'Rubik', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--cyan);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .section-box p {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.5;
   font-weight: 600;
   color: var(--text);
 }
 
 .spec-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
 }
 
 .spec-card {
   background: var(--card);
   border: 1px solid var(--panel-border);
-  border-radius: 10px;
-  padding: 12px;
+  border-radius: 8px;
+  padding: 8px 10px;
 }
 
 .spec-card span {
   display: block;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .spec-card b {
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 800;
   color: var(--text);
 }
 
 /* ============ מבדק אינטראקטיבי ============ */
 .quiz-q {
-  margin-bottom: 22px;
-  padding: 16px;
+  margin-bottom: 16px;
+  padding: 12px;
   background: var(--bg);
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid var(--panel-border);
 }
 
 .quiz-q h4 {
-  margin: 0 0 12px 0;
-  font-size: 16px;
+  margin: 0 0 8px 0;
+  font-size: 14.5px;
   color: var(--text);
 }
 
 .quiz-opt {
   display: block;
-  margin-bottom: 8px;
-  padding: 10px 14px;
+  margin-bottom: 6px;
+  padding: 8px 10px;
   background: var(--card);
   border: 1px solid var(--panel-border);
-  border-radius: 8px;
+  border-radius: 7px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.15s ease;
   font-weight: 600;
+  font-size: 13.5px;
 }
 
-.quiz-opt:hover {
-  background: var(--cyan-soft);
-}
-
-.quiz-opt input {
-  margin-left: 10px;
-}
+.quiz-opt:hover { background: var(--cyan-soft); }
+.quiz-opt input { margin-left: 8px; }
 
 .quiz-btn {
   background: linear-gradient(120deg, #dc2626, #b91c1c);
   color: white;
   border: none;
-  padding: 12px 24px;
+  padding: 9px 18px;
   font-family: 'Rubik', sans-serif;
   font-weight: 800;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
-  box-shadow: 0 4px 14px rgba(185, 28, 28, 0.3);
+  font-size: 14px;
+  box-shadow: 0 3px 10px rgba(185, 28, 28, 0.25);
 }
 
 .quiz-result {
-  margin-top: 15px;
-  padding: 14px;
-  border-radius: 10px;
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
   font-weight: 800;
   display: none;
 }
@@ -538,59 +532,60 @@ header p.subtitle {
 .ref-form label {
   display: block;
   font-weight: 700;
-  margin-top: 14px;
-  margin-bottom: 6px;
+  margin-top: 10px;
+  margin-bottom: 4px;
   color: var(--text);
+  font-size: 13.5px;
 }
 
 .ref-form textarea, .ref-form input[type="text"] {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 8px;
+  border-radius: 8px;
   border: 1px solid var(--panel-border);
   background: var(--bg);
   color: var(--text);
   font-family: 'Assistant', sans-serif;
-  font-size: 15px;
-  margin-bottom: 10px;
+  font-size: 13.5px;
+  margin-bottom: 6px;
 }
 
 /* ============ כפתור מצב תצוגה ============ */
 .darkBtn {
   position: fixed;
-  top: 50px;
-  left: 22px;
-  width: 46px;
-  height: 46px;
+  top: 32px;
+  left: 15px;
+  width: 36px;
+  height: 36px;
   border: 1px solid rgba(185, 28, 28, 0.35);
   border-radius: 50%;
   cursor: pointer;
-  font-size: 19px;
+  font-size: 16px;
   z-index: 9999;
   background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
   color: #b91c1c;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.18);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease;
 }
 
-.darkBtn:hover { transform: scale(1.1); }
+.darkBtn:hover { transform: scale(1.08); }
 
 /* ============ עוזר הפרויקט הצף ============ */
 .bot-widget {
     position: fixed;
-    bottom: 13px;
-    left: 13px;
-    width: 178px;
-    max-width: calc(100vw - 26px);
+    bottom: 12px;
+    left: 12px;
+    width: 170px;
+    max-width: calc(100vw - 24px);
     background: var(--card);
     color: var(--text);
-    border-radius: 11px;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 11px 24px rgba(0,0,0,0.28);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
     z-index: 9999;
     animation: floatBot 4s ease-in-out infinite;
     border: 1px solid var(--panel-border);
@@ -598,8 +593,8 @@ header p.subtitle {
 }
 
 .bot-widget.collapsed {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     animation: none;
     cursor: pointer;
@@ -623,7 +618,6 @@ header p.subtitle {
     height: 100%;
     margin: 0;
     border: 2px solid var(--cyan);
-    box-shadow: 0 4px 11px rgba(0,0,0,0.3);
 }
 
 .bot-close {
@@ -634,20 +628,18 @@ header p.subtitle {
     cursor: pointer;
     font-size: 10px;
     line-height: 1;
-    padding: 1px 2px;
 }
 
 .bot-header {
     background: linear-gradient(135deg, #0b2540, #062a2e);
     color: #eaf6fb;
-    padding: 8px 10px;
+    padding: 6px 8px;
     font-weight: 800;
     font-family: 'JetBrains Mono', monospace;
     font-size: 8px;
     display: flex;
     align-items: center;
-    gap: 5px;
-    letter-spacing: 0.2px;
+    gap: 4px;
     cursor: pointer;
 }
 
@@ -656,75 +648,65 @@ header p.subtitle {
     height: 4px;
     border-radius: 50%;
     background: #34d399;
-    box-shadow: 0 0 0 2px rgba(52,211,153,0.25);
     animation: pulse 1.8s ease-in-out infinite;
-    flex-shrink: 0;
 }
 
-.bot-body { padding: 11px; }
+.bot-body { padding: 8px; }
 
 .bot-avatar {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: block;
-    margin: 0 auto 7px auto;
+    margin: 0 auto 5px auto;
     object-fit: cover;
     border: 2px solid var(--cyan);
-    box-shadow: 0 0 0 3px var(--cyan-soft);
 }
 
 .bot-body p.greet {
-    margin: 0 0 6px 0;
+    margin: 0 0 3px 0;
     font-weight: 800;
     text-align: center;
-    font-size: 9px;
+    font-size: 8.5px;
 }
 
 .bot-body .lead {
     font-weight: 600;
-    font-size: 8px;
+    font-size: 7.5px;
     text-align: center;
     color: var(--text-muted);
-    margin: 0 0 7px;
+    margin: 0 0 5px;
 }
 
 .bot-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
+    gap: 2px;
     justify-content: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .bot-chip {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 6.5px;
-    font-weight: 600;
+    font-size: 6px;
     color: var(--text-muted);
     background: var(--bg);
     border: 1px solid var(--panel-border);
-    padding: 2px 5px;
-    border-radius: 4px;
+    padding: 1px 3px;
+    border-radius: 3px;
 }
 
 .bot-btn {
     display: block;
     text-align: center;
-    padding: 7px;
+    padding: 5px;
     background: var(--green);
     color: #06231a;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 4px;
     font-weight: 800;
-    font-size: 8.5px;
+    font-size: 7.5px;
     font-family: 'JetBrains Mono', monospace;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.bot-btn:hover {
-    opacity: 0.88;
-    transform: scale(1.02);
 }
 
 footer {
@@ -733,16 +715,15 @@ footer {
   color: var(--text-muted);
   font-weight: 700;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12.5px;
+  font-size: 11.5px;
   text-align: center;
-  padding: 26px;
-  margin-top: 50px;
-  letter-spacing: 0.3px;
+  padding: 16px;
+  margin-top: 30px;
 }
 
 @keyframes floatBot {
   0% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-6px); }
   100% { transform: translateY(0); }
 }
 
@@ -753,21 +734,20 @@ footer {
 
 /* ============ MEDIA QUERIES ============ */
 @media (max-width: 900px) {
+  .header-container { flex-direction: column; align-items: stretch; text-align: center; }
+  .header-right { flex-direction: column; text-align: center; justify-content: center; }
+  .hero-titles { align-items: center; }
+  .header-left { align-items: center; }
+  .navbar, .protocol-row { justify-content: center; }
   .component-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
-  .main-title { font-size: 26px; }
-  .darkBtn { top: 45px; left: 12px; width: 40px; height: 40px; font-size: 16px; }
-  .panel { padding: 18px 12px; }
-  .hero-image img { width: 90px; height: 90px; }
+  .main-title { font-size: 16px; }
+  .darkBtn { top: 25px; left: 10px; width: 32px; height: 32px; font-size: 14px; }
+  .panel { padding: 14px 10px; }
+  .hero-image img { width: 38px; height: 38px; }
   .tab-btn { width: 100%; justify-content: center; }
-
-  .bot-widget:not(.collapsed) {
-    width: calc(100vw - 44px);
-    max-height: 70vh;
-    overflow-y: auto;
-  }
 }
 </style>
 </head>
@@ -787,41 +767,40 @@ footer {
 <button class="darkBtn" onclick="toggleDark()" title="החלף מצב תצוגה" id="darkToggleBtn">🌙</button>
 
 <header>
-  <!-- 2. לשוניות ניווט ומבדקים בכותרת -->
-  <nav class="navbar">
-    <a class="nav-btn solid" href="#tabs-section">🌐 מעבדת 7 השכבות</a>
-    <a class="nav-btn outline" href="#quiz-section">📝 מבדק אמריקאי</a>
-    <a class="nav-btn outline" href="#ref-section">🧠 שאלון רפלקציה</a>
-  </nav>
-
-  <div class="hero-row">
-    <div class="hero-image">
-      <img src="https://lh3.googleusercontent.com/d/1oIkZlLHZWtFgoDblyxziTALQZwsyxAOo" alt="אווטר">
-    </div>
-    <div class="hero-text">
-      <!-- 3. סרגל סטטוס כולל תאריך -->
-      <div class="statusbar">
-        <span class="dot"></span>
-        <span>session: osi_model_mastery</span>
-        <span class="sep">//</span>
-        <span class="date-badge">📅 <span id="current-date"></span></span>
-        <span class="sep">//</span>
-        <span>academy.osi.local</span>
+  <div class="header-container">
+    <!-- צד ימין (RTL): אווטאר + כותרות -->
+    <div class="header-right">
+      <div class="hero-image">
+        <img src="https://lh3.googleusercontent.com/d/1oIkZlLHZWtFgoDblyxziTALQZwsyxAOo" alt="אווטר">
       </div>
-      
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 8px;">
+      <div class="hero-titles">
         <span class="small-tag">🔥 איך הכל מתחבר אחי?</span>
         <h1 class="main-title">7 השכבות שמריצות את העולם!</h1>
+        <p class="subtitle">מהאפליקציה במסך ועד לביט החשמלי בכבל - הכמסה (Encapsulation) בזמן אמת!</p>
+      </div>
+    </div>
+
+    <!-- צד שמאל (RTL): ניווט, סטטוס וצ'יפים -->
+    <div class="header-left">
+      <nav class="navbar">
+        <a class="nav-btn solid" href="#tabs-section">🌐 מעבדה</a>
+        <a class="nav-btn outline" href="#quiz-section">📝 מבדק</a>
+        <a class="nav-btn outline" href="#ref-section">🧠 רפלקציה</a>
+      </nav>
+
+      <div class="statusbar">
+        <span class="dot"></span>
+        <span>osi_mastery</span>
+        <span class="sep">//</span>
+        <span class="date-badge">📅 <span id="current-date"></span></span>
       </div>
 
-      <p class="subtitle">מסע עומק בטאבים: מהאפליקציה במסך ועד לביט החשמלי בכבל - כך נראית הכמסה (Encapsulation) אמיתית!</p>
-      
       <div class="protocol-row">
-        <span class="protocol-chip">L7: APPLICATION</span>
-        <span class="protocol-chip">L4: TRANSPORT</span>
-        <span class="protocol-chip">L3: NETWORK</span>
-        <span class="protocol-chip">L2: DATA LINK</span>
-        <span class="protocol-chip">L1: PHYSICAL</span>
+        <span class="protocol-chip">L7: APP</span>
+        <span class="protocol-chip">L4: TRANS</span>
+        <span class="protocol-chip">L3: NET</span>
+        <span class="protocol-chip">L2: LINK</span>
+        <span class="protocol-chip">L1: PHYS</span>
       </div>
     </div>
   </div>
@@ -1016,7 +995,7 @@ footer {
 
           <div class="section-box" style="border-color: var(--amber);">
             <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-            <p>בכל פעם שאתם מריצים <span class="mono">ping 8.8.8.8</span> ב-CMD, אתם מפעילים הודעת ICMP בשכבה 3 ובודקים את הקישוריות שלכם!</p>
+            <p>בכל פעת שאתם מריצים <span class="mono">ping 8.8.8.8</span> ב-CMD, אתם מפעילים הודעת ICMP בשכבה 3 ובודקים את הקישוריות שלכם!</p>
           </div>
         </div>
       </div>
@@ -1184,7 +1163,6 @@ footer {
 </footer>
 
 <script>
-// הצגת תאריך נוכחי בלייב
 document.getElementById('current-date').textContent = new Date().toLocaleDateString('he-IL');
 
 function openTab(evt, tabName) {
