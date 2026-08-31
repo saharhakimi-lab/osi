@@ -448,6 +448,37 @@ header p.subtitle {
   background: linear-gradient(120deg, #0284c7, #0369a1);
 }
 
+/* ============ כפתור מוכן לבוחן ============ */
+.ready-quiz-wrapper {
+  margin-top: 25px;
+  padding-top: 18px;
+  border-top: 2px dashed var(--panel-border);
+  text-align: center;
+}
+
+.start-quiz-btn {
+  background: linear-gradient(120deg, #047857, #10b981);
+  color: #ffffff;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 900;
+  font-size: 17px;
+  padding: 14px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(4, 120, 87, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.start-quiz-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(4, 120, 87, 0.5);
+  background: linear-gradient(120deg, #059669, #34d399);
+}
+
 /* ============ MODAL LIGHTBOX ============ */
 .modal-overlay {
   display: none;
@@ -995,7 +1026,7 @@ footer {
 <!-- 1. סטרייפ נע בחלק העליון -->
 <div class="ticker-bar">
   <div class="ticker-wrapper">
-    <span class="ticker-item">🔥 אקדמיית האחוואנים: שיעור עומק מטורלל על מודל ה-OSI!</span>
+    <span class="ticker-item">🔥 אקדמיית השותפים: שיעור עומק מטורלל על מודל ה-OSI!</span>
     <span class="ticker-item">💡 טיפ לחיים: Layer 1 זה תמיד הכבל שאיזה מישהו ניתק בטעות...</span>
     <span class="ticker-item">⚡ TCP = מכתב רשום עם אישור מסירה | UDP = שיגור ושכח!</span>
     <span class="ticker-item">📝 אל תשכחו לבצע את המבדק האינטראקטיבי המורחב (15 שאלות) והרפלקציה בסוף השיעור!</span>
@@ -1020,7 +1051,7 @@ footer {
     <div class="header-left">
       <nav class="navbar">
         <a class="nav-btn solid" href="#tabs-section">🌐 מעבדה</a>
-        <a class="nav-btn outline" href="#quiz-section">📝 מבדק (15 שאלות)</a>
+        <a class="nav-btn outline" href="javascript:void(0)" onclick="revealQuiz()">📝 מבדק (15 שאלות)</a>
         <a class="nav-btn outline" href="#ref-section">🧠 רפלקציה</a>
       </nav>
 
@@ -1375,10 +1406,18 @@ footer {
 
       </div>
     </div>
+
+    <!-- כפתור בולט: סיימתי ללמוד ואני מוכן לבוחן -->
+    <div class="ready-quiz-wrapper">
+      <button type="button" class="start-quiz-btn" onclick="revealQuiz()">
+        ✅ סיימתי ללמוד ואני מוכן לבוחן! 🚀
+      </button>
+    </div>
+
   </div>
 
-  <!-- פאנל המבדק האינטראקטיבי -->
-  <div class="panel" id="quiz-section">
+  <!-- פאנל המבדק האינטראקטיבי (מוסתר כברירת מחדל) -->
+  <div class="panel" id="quiz-section" style="display: none;">
     <div class="panel-head">
       <h2>📝 מבדק ידע אינטראקטיבי מורחב (15 שאלות)</h2>
       <span class="panel-tag mono">EXTENDED_KNOWLEDGE_CHECK</span>
@@ -1669,6 +1708,12 @@ function toggleDark(){
   document.body.classList.toggle("dark");
   const btn = document.getElementById("darkToggleBtn");
   btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+
+function revealQuiz() {
+  const quizSec = document.getElementById('quiz-section');
+  quizSec.style.display = 'block';
+  quizSec.scrollIntoView({ behavior: 'smooth' });
 }
 
 function openModal(imgSrc, captionText) {
