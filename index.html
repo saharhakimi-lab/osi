@@ -1062,203 +1062,53 @@ footer {
       <!-- עמודה שמאלית: הטאבים והתוכן -->
       <div>
         <div class="tabs-nav">
-          <button class="tab-btn active" onclick="openTab(event, 'l7')">7. אפליקציה</button>
-          <button class="tab-btn" onclick="openTab(event, 'l6')">6. תצוגה</button>
-          <button class="tab-btn" onclick="openTab(event, 'l5')">5. שיחה</button>
-          <button class="tab-btn" onclick="openTab(event, 'l4')">4. תחבורה</button>
-          <button class="tab-btn" onclick="openTab(event, 'l3')">3. רשת</button>
+          <button class="tab-btn active" onclick="openTab(event, 'l1')">1. פיזית</button>
           <button class="tab-btn" onclick="openTab(event, 'l2')">2. קו נתונים</button>
-          <button class="tab-btn" onclick="openTab(event, 'l1')">1. פיזית</button>
+          <button class="tab-btn" onclick="openTab(event, 'l3')">3. רשת</button>
+          <button class="tab-btn" onclick="openTab(event, 'l4')">4. תחבורה</button>
+          <button class="tab-btn" onclick="openTab(event, 'l5')">5. שיחה</button>
+          <button class="tab-btn" onclick="openTab(event, 'l6')">6. תצוגה</button>
+          <button class="tab-btn" onclick="openTab(event, 'l7')">7. אפליקציה</button>
         </div>
 
-        <!-- LAYER 7 -->
-        <div id="l7" class="tab-content active">
+        <!-- LAYER 1 -->
+        <div id="l1" class="tab-content active">
           <div class="component-grid">
             <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 7</span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Application</span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Data</span></div>
-              <div class="meta-item"><span class="meta-label">רכיב:</span><span class="meta-val">דפדפן, מייל</span></div>
+              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 1</span></div>
+              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Physical</span></div>
+              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Bits</span></div>
+              <div class="meta-item"><span class="meta-label">רכיבים:</span><span class="meta-val">כבלים, אנטנות</span></div>
             </div>
             <div class="comp-details">
-              <h3 class="comp-title">📱 שכבה 7 - שכבת האפליקציה (Application Layer)</h3>
+              <h3 class="comp-title">🔌 שכבה 1 - השכבה הפיזית (Physical Layer)</h3>
               
               <div class="section-box">
                 <h4>⚡ תפקיד השכבה</h4>
-                <p>השכבה הראשונה שבאמצעותה המשתמש מקיים אינטראקציה עם הרשת. היא מספקת את ממשקי התקשורת והפרוטוקולים ישירות לאפליקציות שלכם (דפדפן האינטרנט, תוכנת ה-Email, או תוכנת העברת הקבצים).</p>
+                <p>הקרקע המוצקה של הרשת! השכבה הפיזית אחראית על העברת הביטים הגולמיים (01010101) על גבי התווך הפיזי. היא ממירה את הביטים לפולסים חשמליים (בכבלי נחושת), פולסים של אור (בסיבים אופטיים), או גלי רדיו (ב-Wi-Fi).</p>
               </div>
 
               <div class="section-box" style="border-color: var(--green);">
-                <h4 style="color: var(--green);">🛠️ פרוטוקולים מרכזיים</h4>
+                <h4 style="color: var(--green);">🛠️ תשתיות וציוד</h4>
                 <div class="spec-grid">
-                  <div class="spec-card"><span>גלישה</span><b>HTTP / HTTPS</b></div>
-                  <div class="spec-card"><span>שמות</span><b>DNS</b></div>
-                  <div class="spec-card"><span>דואר</span><b>SMTP / IMAP</b></div>
-                  <div class="spec-card"><span>קבצים</span><b>FTP / SFTP</b></div>
-                </div>
-              </div>
-
-              <!-- כפתור הרחבה לשכבה 7 -->
-              <div>
-                <a href="https://saharhakimi-lab.github.io/applayer7/" target="_blank" class="expand-btn">
-                  🔗 לחץ להרחבה
-                </a>
-              </div>
-
-              <div class="section-box" style="border-color: var(--amber);">
-                <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-                <p>שימו לב! הדפדפן עצמו (Chrome / Firefox) הוא לא השכבה, אלא **הפרוטוקול שהדפדפן מדבר בו** (כמו HTTP) הוא זה שחי בשכבה 7!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LAYER 6 -->
-        <div id="l6" class="tab-content">
-          <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 6</span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Presentation</span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Data</span></div>
-              <div class="meta-item"><span class="meta-label">תפקיד:</span><span class="meta-val">הצפנה, דחיסה</span></div>
-            </div>
-            <div class="comp-details">
-              <h3 class="comp-title">🎨 שכבה 6 - שכבת התצוגה (Presentation Layer)</h3>
-              
-              <div class="section-box">
-                <h4>⚡ תפקיד השכבה</h4>
-                <p>השכבה שדואגת שהמידע יגיע בפורמט שהמקבל יוכל להבין! היא מבצעת תרגום בין קידודים שונים (למשל ASCII ל-UTF-8), דוחסת את המידע כדי שיטוס מהר יותר, ומבצעת הצפנה (Encryption) ופענוח (Decryption) לשמירה על אבטחה.</p>
-              </div>
-
-              <div class="section-box" style="border-color: var(--green);">
-                <h4 style="color: var(--green);">🛠️ פורמטים ופרוטוקולים נפוצים</h4>
-                <div class="spec-grid">
-                  <div class="spec-card"><span>הצפנה</span><b>SSL / TLS</b></div>
-                  <div class="spec-card"><span>תמונות</span><b>JPEG, PNG</b></div>
-                  <div class="spec-card"><span>וידאו</span><b>MP4, MP3</b></div>
-                  <div class="spec-card"><span>קידוד</span><b>ASCII, UTF-8</b></div>
-                </div>
-              </div>
-
-              <div class="section-box" style="border-color: var(--amber);">
-                <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-                <p>כשאתם נכנסים לאתר מאובטח והמנעול הירוק דולק (HTTPS), הצפנת ה-TLS מתרחשת בשכבה הזו בדיוק!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LAYER 5 -->
-        <div id="l5" class="tab-content">
-          <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 5</span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Session</span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Data</span></div>
-              <div class="meta-item"><span class="meta-label">תפקיד:</span><span class="meta-val">ניהול שיחות</span></div>
-            </div>
-            <div class="comp-details">
-              <h3 class="comp-title">🗣️ שכבה 5 - שכבת השיחה (Session Layer)</h3>
-              
-              <div class="section-box">
-                <h4>⚡ תפקיד השכבה</h4>
-                <p>המרכזיה שמנהלת את הדיאלוג! שכבה זו אחראית לפתוח, לשמור ולסגור את ה"שיחות" (Sessions) בין שני מחשבים ברשת. היא דואגת שהתקשורת תישאר פתוחה כל עוד מעבירים מידע, ותסגר מיד כשמסיימים כדי לא לבזבז משאבים.</p>
-              </div>
-
-              <div class="section-box" style="border-color: var(--green);">
-                <h4 style="color: var(--green);">🛠️ טכנולוגיות ופרוטוקולים</h4>
-                <div class="spec-grid">
-                  <div class="spec-card"><span>שיחות</span><b>NetBIOS</b></div>
-                  <div class="spec-card"><span>שיתוף</span><b>SMB / RPC</b></div>
-                  <div class="spec-card"><span>מנהרה</span><b>PPTP</b></div>
-                  <div class="spec-card"><span>סנכרון</span><b>Checkpoints</b></div>
-                </div>
-              </div>
-
-              <div class="section-box" style="border-color: var(--amber);">
-                <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-                <p>שכבת השיחה מציבה "Checkpoints" במהלך הורדת קבצים גדולים. אם החיבור מתנתק באמצע, היא יודעת להמשיך בדיוק מהנקודה שנעצרה ולא להתחיל מחדש!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LAYER 4 -->
-        <div id="l4" class="tab-content">
-          <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 4</span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Transport</span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Segment</span></div>
-              <div class="meta-item"><span class="meta-label">זיהוי:</span><span class="meta-val">Ports</span></div>
-            </div>
-            <div class="comp-details">
-              <h3 class="comp-title">🚚 שכבה 4 - שכבת התחבורה (Transport Layer)</h3>
-              
-              <div class="section-box">
-                <h4>⚡ תפקיד השכבה</h4>
-                <p>אחראית על העברת הנתונים בין תהליכים (Process-to-Process). היא קוטעת את המידע הפיזי למקטעים קטנים (Segments), ומצמידה מספרי פורטים (Ports) כדי לדעת לאיזה אפליקציה המידע שייך במחשב (למשל פורט 80 לגלישה, פורט 25 למייל).</p>
-              </div>
-
-              <div class="section-box" style="border-color: var(--green);">
-                <h4 style="color: var(--green);">🛠️ שני הפרוטוקולים המובילים</h4>
-                <div class="spec-grid">
-                  <div class="spec-card"><span>TCP (אמין)</span><b>Three-Way Handshake</b></div>
-                  <div class="spec-card"><span>UDP (מהיר)</span><b>ללא אישור קבלה</b></div>
-                  <div class="spec-card"><span>פורטים</span><b>0 עד 65,535</b></div>
-                  <div class="spec-card"><span>בקרה</span><b>Flow Control</b></div>
-                </div>
-              </div>
-
-              <!-- כפתור הרחבה לשכבה 4 -->
-              <div>
-                <a href="https://saharhakimi-lab.github.io/layer4/" target="_blank" class="expand-btn">
-                  🔗 לחץ להרחבה
-                </a>
-              </div>
-
-              <div class="section-box" style="border-color: var(--amber);">
-                <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-                <p>זוכרים? TCP שולח מכתב רשום עם אישור מסירה (SYN -> SYN-ACK -> ACK). לעומתו, UDP מטיף חבילות באוויר כמו ספאם ואינו בודק אם קיבלתם!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LAYER 3 -->
-        <div id="l3" class="tab-content">
-          <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 3</span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Network</span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Packet</span></div>
-              <div class="meta-item"><span class="meta-label">רכיב:</span><span class="meta-val">Router</span></div>
-            </div>
-            <div class="comp-details">
-              <h3 class="comp-title">🌐 שכבה 3 - שכבת הרשת (Network Layer)</h3>
-              
-              <div class="section-box">
-                <h4>⚡ תפקיד השכבה</h4>
-                <p>שכבת הניתוב והכתובות הלוגיות! היא אחראית על העברת החבילות (Packets) מקצה לקצה בין רשתות שונות ונפרדות. השכבה מוסיפה לכל חבילה את כתובת ה-IP של המקור ואת כתובת ה-IP של היעד ומחליטה באיזה נתיב הכי כדאי לנתב אותה.</p>
-              </div>
-
-              <div class="section-box" style="border-color: var(--green);">
-                <h4 style="color: var(--green);">🛠️ טכנולוגיות ופרוטוקולים</h4>
-                <div class="spec-grid">
-                  <div class="spec-card"><span>כתובות</span><b>IPv4 / IPv6</b></div>
-                  <div class="spec-card"><span>בקרה</span><b>ICMP (Ping)</b></div>
-                  <div class="spec-card"><span>ניתוב</span><b>OSPF, BGP, RIP</b></div>
-                  <div class="spec-card"><span>חומרה</span><b>Router / L3 Switch</b></div>
+                  <div class="spec-card"><span>נחושת</span><b>UTP Cat6 / RJ-45</b></div>
+                  <div class="spec-card"><span>אופטיקה</span><b>Single/Multi-Mode</b></div>
+                  <div class="spec-card"><span>ישן</span><b>Hub / Repeaters</b></div>
+                  <div class="spec-card"><span>אלחוט</span><b>2.4GHz / 5GHz</b></div>
                 </div>
 
-                <!-- גלריית תמונות - שכבה 3 -->
+                <!-- גלריית תמונות - שכבה 1 -->
                 <div class="layer-gallery">
-                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/1Cr4C8JnlwhPdsWDE62IeUJJvlqj9yH3s', 'דיאגרמת רשת - שכבה 3')">
-                    <img src="https://lh3.googleusercontent.com/d/1Cr4C8JnlwhPdsWDE62IeUJJvlqj9yH3s" alt="שכבה 3 - דיאגרמה 1">
+                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/17iop6FSthN4wSvGWK9X2Vd9ecD9nZ8LP', 'תשתיות וציוד פיזי - 1')">
+                    <img src="https://lh3.googleusercontent.com/d/17iop6FSthN4wSvGWK9X2Vd9ecD9nZ8LP" alt="ציוד פיזי 1">
                     <span>🖼️ לחץ להגדלה</span>
                   </div>
-                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/1aKMn6c4IsjcjiaUn6-zNjJgQ7N9i4aGB', 'דיאגרמת ניתוב IP - שכבה 3')">
-                    <img src="https://lh3.googleusercontent.com/d/1aKMn6c4IsjcjiaUn6-zNjJgQ7N9i4aGB" alt="שכבה 3 - דיאגרמה 2">
+                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/1f6JNuX8kE9oPud4-qDDrcvrLSC_v4efu', 'תשתיות וציוד פיזי - 2')">
+                    <img src="https://lh3.googleusercontent.com/d/1f6JNuX8kE9oPud4-qDDrcvrLSC_v4efu" alt="ציוד פיזי 2">
+                    <span>🖼️ לחץ להגדלה</span>
+                  </div>
+                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/1j4L2sBSPPXYUaEjMyj6y66wIEoBdESW3', 'תשתיות וציוד פיזי - 3')">
+                    <img src="https://lh3.googleusercontent.com/d/1j4L2sBSPPXYUaEjMyj6y66wIEoBdESW3" alt="ציוד פיזי 3">
                     <span>🖼️ לחץ להגדלה</span>
                   </div>
                 </div>
@@ -1266,7 +1116,7 @@ footer {
 
               <div class="section-box" style="border-color: var(--amber);">
                 <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-                <p>בכל פעת שאתם מריצים <span class="mono">ping 8.8.8.8</span> ב-CMD, אתם מפעילים הודעת ICMP בשכבה 3 ובודקים את הקישוריות שלכם!</p>
+                <p>כשאומרים בטכנאות "בעיית Layer 1", מתכוונים בדרך כלל לפתרון הכי יסודי: הכבל יצא מהמקום או נתלש! תמיד תבדקו את הכבל קודם.</p>
               </div>
             </div>
           </div>
@@ -1322,44 +1172,40 @@ footer {
           </div>
         </div>
 
-        <!-- LAYER 1 -->
-        <div id="l1" class="tab-content">
+        <!-- LAYER 3 -->
+        <div id="l3" class="tab-content">
           <div class="component-grid">
             <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 1</span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Physical</span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Bits</span></div>
-              <div class="meta-item"><span class="meta-label">רכיבים:</span><span class="meta-val">כבלים, אנטנות</span></div>
+              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 3</span></div>
+              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Network</span></div>
+              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Packet</span></div>
+              <div class="meta-item"><span class="meta-label">רכיב:</span><span class="meta-val">Router</span></div>
             </div>
             <div class="comp-details">
-              <h3 class="comp-title">🔌 שכבה 1 - השכבה הפיזית (Physical Layer)</h3>
+              <h3 class="comp-title">🌐 שכבה 3 - שכבת הרשת (Network Layer)</h3>
               
               <div class="section-box">
                 <h4>⚡ תפקיד השכבה</h4>
-                <p>הקרקע המוצקה של הרשת! השכבה הפיזית אחראית על העברת הביטים הגולמיים (01010101) על גבי התווך הפיזי. היא ממירה את הביטים לפולסים חשמליים (בכבלי נחושת), פולסים של אור (בסיבים אופטיים), או גלי רדיו (ב-Wi-Fi).</p>
+                <p>שכבת הניתוב והכתובות הלוגיות! היא אחראית על העברת החבילות (Packets) מקצה לקצה בין רשתות שונות ונפרדות. השכבה מוסיפה לכל חבילה את כתובת ה-IP של המקור ואת כתובת ה-IP של היעד ומחליטה באיזה נתיב הכי כדאי לנתב אותה.</p>
               </div>
 
               <div class="section-box" style="border-color: var(--green);">
-                <h4 style="color: var(--green);">🛠️ תשתיות וציוד</h4>
+                <h4 style="color: var(--green);">🛠️ טכנולוגיות ופרוטוקולים</h4>
                 <div class="spec-grid">
-                  <div class="spec-card"><span>נחושת</span><b>UTP Cat6 / RJ-45</b></div>
-                  <div class="spec-card"><span>אופטיקה</span><b>Single/Multi-Mode</b></div>
-                  <div class="spec-card"><span>ישן</span><b>Hub / Repeaters</b></div>
-                  <div class="spec-card"><span>אלחוט</span><b>2.4GHz / 5GHz</b></div>
+                  <div class="spec-card"><span>כתובות</span><b>IPv4 / IPv6</b></div>
+                  <div class="spec-card"><span>בקרה</span><b>ICMP (Ping)</b></div>
+                  <div class="spec-card"><span>ניתוב</span><b>OSPF, BGP, RIP</b></div>
+                  <div class="spec-card"><span>חומרה</span><b>Router / L3 Switch</b></div>
                 </div>
 
-                <!-- גלריית תמונות - שכבה 1 -->
+                <!-- גלריית תמונות - שכבה 3 -->
                 <div class="layer-gallery">
-                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/17iop6FSthN4wSvGWK9X2Vd9ecD9nZ8LP', 'תשתיות וציוד פיזי - 1')">
-                    <img src="https://lh3.googleusercontent.com/d/17iop6FSthN4wSvGWK9X2Vd9ecD9nZ8LP" alt="ציוד פיזי 1">
+                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/1Cr4C8JnlwhPdsWDE62IeUJJvlqj9yH3s', 'דיאגרמת רשת - שכבה 3')">
+                    <img src="https://lh3.googleusercontent.com/d/1Cr4C8JnlwhPdsWDE62IeUJJvlqj9yH3s" alt="שכבה 3 - דיאגרמה 1">
                     <span>🖼️ לחץ להגדלה</span>
                   </div>
-                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/1f6JNuX8kE9oPud4-qDDrcvrLSC_v4efu', 'תשתיות וציוד פיזי - 2')">
-                    <img src="https://lh3.googleusercontent.com/d/1f6JNuX8kE9oPud4-qDDrcvrLSC_v4efu" alt="ציוד פיזי 2">
-                    <span>🖼️ לחץ להגדלה</span>
-                  </div>
-                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/1j4L2sBSPPXYUaEjMyj6y66wIEoBdESW3', 'תשתיות וציוד פיזי - 3')">
-                    <img src="https://lh3.googleusercontent.com/d/1j4L2sBSPPXYUaEjMyj6y66wIEoBdESW3" alt="ציוד פיזי 3">
+                  <div class="layer-img-card" onclick="openModal('https://lh3.googleusercontent.com/d/1aKMn6c4IsjcjiaUn6-zNjJgQ7N9i4aGB', 'דיאגרמת ניתוב IP - שכבה 3')">
+                    <img src="https://lh3.googleusercontent.com/d/1aKMn6c4IsjcjiaUn6-zNjJgQ7N9i4aGB" alt="שכבה 3 - דיאגרמה 2">
                     <span>🖼️ לחץ להגדלה</span>
                   </div>
                 </div>
@@ -1367,7 +1213,161 @@ footer {
 
               <div class="section-box" style="border-color: var(--amber);">
                 <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
-                <p>כשאומרים בטכנאות "בעיית Layer 1", מתכוונים בדרך כלל לפתרון הכי יסודי: הכבל יצא מהמקום או נתלש! תמיד תבדקו את הכבל קודם.</p>
+                <p>בכל פעת שאתם מריצים <span class="mono">ping 8.8.8.8</span> ב-CMD, אתם מפעילים הודעת ICMP בשכבה 3 ובודקים את הקישוריות שלכם!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYER 4 -->
+        <div id="l4" class="tab-content">
+          <div class="component-grid">
+            <div class="meta-box">
+              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 4</span></div>
+              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Transport</span></div>
+              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Segment</span></div>
+              <div class="meta-item"><span class="meta-label">זיהוי:</span><span class="meta-val">Ports</span></div>
+            </div>
+            <div class="comp-details">
+              <h3 class="comp-title">🚚 שכבה 4 - שכבת התחבורה (Transport Layer)</h3>
+              
+              <div class="section-box">
+                <h4>⚡ תפקיד השכבה</h4>
+                <p>אחראית על העברת הנתונים בין תהליכים (Process-to-Process). היא קוטעת את המידע הפיזי למקטעים קטנים (Segments), ומצמידה מספרי פורטים (Ports) כדי לדעת לאיזה אפליקציה המידע שייך במחשב (למשל פורט 80 לגלישה, פורט 25 למייל).</p>
+              </div>
+
+              <div class="section-box" style="border-color: var(--green);">
+                <h4 style="color: var(--green);">🛠️ שני הפרוטוקולים המובילים</h4>
+                <div class="spec-grid">
+                  <div class="spec-card"><span>TCP (אמין)</span><b>Three-Way Handshake</b></div>
+                  <div class="spec-card"><span>UDP (מהיר)</span><b>ללא אישור קבלה</b></div>
+                  <div class="spec-card"><span>פורטים</span><b>0 עד 65,535</b></div>
+                  <div class="spec-card"><span>בקרה</span><b>Flow Control</b></div>
+                </div>
+              </div>
+
+              <!-- כפתור הרחבה לשכבה 4 -->
+              <div>
+                <a href="https://saharhakimi-lab.github.io/layer4/" target="_blank" class="expand-btn">
+                  🔗 לחץ להרחבה
+                </a>
+              </div>
+
+              <div class="section-box" style="border-color: var(--amber);">
+                <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+                <p>זוכרים? TCP שולח מכתב רשום עם אישור מסירה (SYN -> SYN-ACK -> ACK). לעומתו, UDP מטיף חבילות באוויר כמו ספאם ואינו בודק אם קיבלתם!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYER 5 -->
+        <div id="l5" class="tab-content">
+          <div class="component-grid">
+            <div class="meta-box">
+              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 5</span></div>
+              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Session</span></div>
+              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Data</span></div>
+              <div class="meta-item"><span class="meta-label">תפקיד:</span><span class="meta-val">ניהול שיחות</span></div>
+            </div>
+            <div class="comp-details">
+              <h3 class="comp-title">🗣️ שכבה 5 - שכבת השיחה (Session Layer)</h3>
+              
+              <div class="section-box">
+                <h4>⚡ תפקיד השכבה</h4>
+                <p>המרכזיה שמנהלת את הדיאלוג! שכבה זו אחראית לפתוח, לשמור ולסגור את ה"שיחות" (Sessions) בין שני מחשבים ברשת. היא דואגת שהתקשורת תישאר פתוחה כל עוד מעבירים מידע, ותסגר מיד כשמסיימים כדי לא לבזבז משאבים.</p>
+              </div>
+
+              <div class="section-box" style="border-color: var(--green);">
+                <h4 style="color: var(--green);">🛠️ טכנולוגיות ופרוטוקולים</h4>
+                <div class="spec-grid">
+                  <div class="spec-card"><span>שיחות</span><b>NetBIOS</b></div>
+                  <div class="spec-card"><span>שיתוף</span><b>SMB / RPC</b></div>
+                  <div class="spec-card"><span>מנהרה</span><b>PPTP</b></div>
+                  <div class="spec-card"><span>סנכרון</span><b>Checkpoints</b></div>
+                </div>
+              </div>
+
+              <div class="section-box" style="border-color: var(--amber);">
+                <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+                <p>שכבת השיחה מציבה "Checkpoints" במהלך הורדת קבצים גדולים. אם החיבור מתנתק באמצע, היא יודעת להמשיך בדיוק מהנקודה שנעצרה ולא להתחיל מחדש!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYER 6 -->
+        <div id="l6" class="tab-content">
+          <div class="component-grid">
+            <div class="meta-box">
+              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 6</span></div>
+              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Presentation</span></div>
+              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Data</span></div>
+              <div class="meta-item"><span class="meta-label">תפקיד:</span><span class="meta-val">הצפנה, דחיסה</span></div>
+            </div>
+            <div class="comp-details">
+              <h3 class="comp-title">🎨 שכבה 6 - שכבת התצוגה (Presentation Layer)</h3>
+              
+              <div class="section-box">
+                <h4>⚡ תפקיד השכבה</h4>
+                <p>השכבה שדואגת שהמידע יגיע בפורמט שהמקבל יוכל להבין! היא מבצעת תרגום בין קידודים שונים (למשל ASCII ל-UTF-8), דוחסת את המידע כדי שיטוס מהר יותר, ומבצעת הצפנה (Encryption) ופענוח (Decryption) לשמירה על אבטחה.</p>
+              </div>
+
+              <div class="section-box" style="border-color: var(--green);">
+                <h4 style="color: var(--green);">🛠️ פורמטים ופרוטוקולים נפוצים</h4>
+                <div class="spec-grid">
+                  <div class="spec-card"><span>הצפנה</span><b>SSL / TLS</b></div>
+                  <div class="spec-card"><span>תמונות</span><b>JPEG, PNG</b></div>
+                  <div class="spec-card"><span>וידאו</span><b>MP4, MP3</b></div>
+                  <div class="spec-card"><span>קידוד</span><b>ASCII, UTF-8</b></div>
+                </div>
+              </div>
+
+              <div class="section-box" style="border-color: var(--amber);">
+                <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+                <p>כשאתם נכנסים לאתר מאובטח והמנעול הירוק דולק (HTTPS), הצפנת ה-TLS מתרחשת בשכבה הזו בדיוק!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYER 7 -->
+        <div id="l7" class="tab-content">
+          <div class="component-grid">
+            <div class="meta-box">
+              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val">Layer 7</span></div>
+              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val">Application</span></div>
+              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val">Data</span></div>
+              <div class="meta-item"><span class="meta-label">רכיב:</span><span class="meta-val">דפדפן, מייל</span></div>
+            </div>
+            <div class="comp-details">
+              <h3 class="comp-title">📱 שכבה 7 - שכבת האפליקציה (Application Layer)</h3>
+              
+              <div class="section-box">
+                <h4>⚡ תפקיד השכבה</h4>
+                <p>השכבה הראשונה שבאמצעותה המשתמש מקיים אינטראקציה עם הרשת. היא מספקת את ממשקי התקשורת והפרוטוקולים ישירות לאפליקציות שלכם (דפדפן האינטרנט, תוכנת ה-Email, או תוכנת העברת הקבצים).</p>
+              </div>
+
+              <div class="section-box" style="border-color: var(--green);">
+                <h4 style="color: var(--green);">🛠️ פרוטוקולים מרכזיים</h4>
+                <div class="spec-grid">
+                  <div class="spec-card"><span>גלישה</span><b>HTTP / HTTPS</b></div>
+                  <div class="spec-card"><span>שמות</span><b>DNS</b></div>
+                  <div class="spec-card"><span>דואר</span><b>SMTP / IMAP</b></div>
+                  <div class="spec-card"><span>קבצים</span><b>FTP / SFTP</b></div>
+                </div>
+              </div>
+
+              <!-- כפתור הרחבה לשכבה 7 -->
+              <div>
+                <a href="https://saharhakimi-lab.github.io/applayer7/" target="_blank" class="expand-btn">
+                  🔗 לחץ להרחבה
+                </a>
+              </div>
+
+              <div class="section-box" style="border-color: var(--amber);">
+                <h4 style="color: var(--amber);">🔥 טיפ מטורלל של האחוואנים</h4>
+                <p>שימו לב! הדפדפן עצמו (Chrome / Firefox) הוא לא השכבה, אלא **הפרוטוקול שהדפדפן מדבר בו** (כמו HTTP) הוא זה שחי בשכבה 7!</p>
               </div>
             </div>
           </div>
