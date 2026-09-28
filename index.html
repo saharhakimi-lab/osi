@@ -343,6 +343,50 @@ header p.subtitle {
   white-space: nowrap;
 }
 
+/* ============ TABS בשורה אחת רחבה מעל התוכן ============ */
+.tabs-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap; /* מבטיח שורה אחת בסיסית */
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--panel-border);
+  padding-bottom: 12px;
+  width: 100%;
+}
+
+.tab-btn {
+  flex: 1;
+  font-family: 'Rubik', sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
+  padding: 10px 8px;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background: var(--cyan-soft);
+  color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+.tab-btn.active {
+  background: linear-gradient(120deg, #dc2626, #b91c1c);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.25);
+}
+
+/* ============ גריד 2 עמודות מתחת לטאבים ============ */
 .two-column-layout {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -351,14 +395,24 @@ header p.subtitle {
 }
 
 @media (max-width: 960px) {
+  .tabs-nav {
+    flex-wrap: wrap; /* ברשתות קטנות יירד שורה בצורה נקי */
+  }
   .two-column-layout {
     grid-template-columns: 1fr;
   }
 }
 
-.osi-diagram-card {
+/* ============ עמודה ימנית (סיידבר) - מורדת מתחת לטאבים ============ */
+.osi-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   position: sticky;
   top: 15px;
+}
+
+.osi-diagram-card {
   background: var(--bg);
   border: 2px dashed var(--panel-border);
   border-radius: 14px;
@@ -565,45 +619,6 @@ header p.subtitle {
   text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* ============ TABS ============ */
-.tabs-nav {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  border-bottom: 2px solid var(--panel-border);
-  padding-bottom: 12px;
-}
-
-.tab-btn {
-  font-family: 'Rubik', sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  padding: 8px 16px;
-  border: 1px solid var(--panel-border);
-  border-radius: 10px;
-  background: var(--bg);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.tab-btn:hover {
-  background: var(--cyan-soft);
-  color: var(--cyan);
-  border-color: var(--cyan);
-}
-
-.tab-btn.active {
-  background: linear-gradient(120deg, #dc2626, #b91c1c);
-  color: #ffffff;
-  border-color: transparent;
-  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.25);
-}
-
 .tab-content {
   display: none;
   animation: fadeIn 0.25s ease-in-out;
@@ -617,13 +632,9 @@ header p.subtitle {
 }
 
 .component-grid {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 20px;
-}
-
-@media (max-width: 600px) {
-  .component-grid { grid-template-columns: 1fr; }
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .meta-box {
@@ -637,7 +648,7 @@ header p.subtitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 9px 0;
+  padding: 8px 0;
   border-bottom: 1px dashed var(--panel-border);
   font-size: 14px;
 }
@@ -705,7 +716,7 @@ header p.subtitle {
   border: 1px solid var(--panel-border);
   border-radius: 10px;
   padding: 12px 14px;
-  text-align: center; /* מרכוז התוכן הממוסגר */
+  text-align: center;
 }
 
 .spec-card span {
@@ -1152,36 +1163,42 @@ footer {
       <span class="panel-tag mono">OSI_LAYERS_EXPLORER</span>
     </div>
 
+    <!-- הטאבים פרוסים בשורה אחת לרוחב כל הפאנל -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="openTab(event, 'l1', 'Layer 1', 'Physical', 'Bits', 'כבלים, אנטנות')">1. פיזית <span class="en-term">Physical</span></button>
+      <button class="tab-btn" onclick="openTab(event, 'l2', 'Layer 2', 'Data Link', 'Frame', 'Switch, NIC')">2. קו נתונים <span class="en-term">Data Link</span></button>
+      <button class="tab-btn" onclick="openTab(event, 'l3', 'Layer 3', 'Network', 'Packet', 'Router')">3. רשת <span class="en-term">Network</span></button>
+      <button class="tab-btn" onclick="openTab(event, 'l4', 'Layer 4', 'Transport', 'Segment', 'Ports')">4. תחבורה <span class="en-term">Transport</span></button>
+      <button class="tab-btn" onclick="openTab(event, 'l5', 'Layer 5', 'Session', 'Data', 'ניהול שיחות')">5. שיחה <span class="en-term">Session</span></button>
+      <button class="tab-btn" onclick="openTab(event, 'l6', 'Layer 6', 'Presentation', 'Data', 'הצפנה, דחיסה')">6. תצוגה <span class="en-term">Presentation</span></button>
+      <button class="tab-btn" onclick="openTab(event, 'l7', 'Layer 7', 'Application', 'Data', 'דפדפן, מייל')">7. אפליקציה <span class="en-term">Application</span></button>
+    </div>
+
     <div class="two-column-layout">
-      <!-- עמודה ימנית: תמונת מודל ה-OSI -->
-      <div class="osi-diagram-card" onclick="openModal('https://lh3.googleusercontent.com/d/1iZ4pPRwaIlPY6gTWsK9TdiReQNhhmiHc', 'מודל ה-OSI - דיאגרמה מלאה')">
-        <img src="https://lh3.googleusercontent.com/d/1iZ4pPRwaIlPY6gTWsK9TdiReQNhhmiHc" alt="מודל ה-OSI - דיאגרמה מלאה">
-        <div>
-          <span class="click-hint">🔍 לחץ להגדלה</span>
+      <!-- עמודה ימנית (סיידבר): מתחילה מתחת לשורת הטאבים -->
+      <div class="osi-sidebar">
+        <!-- קופסת נתונים כלליים של השכבה הנבחרת -->
+        <div class="meta-box" id="sidebar-meta">
+          <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val"><span class="en-term" id="meta-num">Layer 1</span></span></div>
+          <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val"><span class="en-term" id="meta-name">Physical</span></span></div>
+          <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val"><span class="en-term" id="meta-pdu">Bits</span></span></div>
+          <div class="meta-item"><span class="meta-label">רכיבים:</span><span class="meta-val" id="meta-dev">כבלים, אנטנות</span></div>
+        </div>
+
+        <!-- תמונת הדיאגרמה -->
+        <div class="osi-diagram-card" onclick="openModal('https://lh3.googleusercontent.com/d/1iZ4pPRwaIlPY6gTWsK9TdiReQNhhmiHc', 'מודל ה-OSI - דיאגרמה מלאה')">
+          <img src="https://lh3.googleusercontent.com/d/1iZ4pPRwaIlPY6gTWsK9TdiReQNhhmiHc" alt="מודל ה-OSI - דיאגרמה מלאה">
+          <div>
+            <span class="click-hint">🔍 לחץ להגדלה</span>
+          </div>
         </div>
       </div>
 
-      <!-- עמודה שמאלית: הטאבים והתוכן -->
+      <!-- עמודה שמאלית מורחבת: תוכן המידע המפורט בלבד -->
       <div>
-        <div class="tabs-nav">
-          <button class="tab-btn active" onclick="openTab(event, 'l1')">1. פיזית <span class="en-term">Physical</span></button>
-          <button class="tab-btn" onclick="openTab(event, 'l2')">2. קו נתונים <span class="en-term">Data Link</span></button>
-          <button class="tab-btn" onclick="openTab(event, 'l3')">3. רשת <span class="en-term">Network</span></button>
-          <button class="tab-btn" onclick="openTab(event, 'l4')">4. תחבורה <span class="en-term">Transport</span></button>
-          <button class="tab-btn" onclick="openTab(event, 'l5')">5. שיחה <span class="en-term">Session</span></button>
-          <button class="tab-btn" onclick="openTab(event, 'l6')">6. תצוגה <span class="en-term">Presentation</span></button>
-          <button class="tab-btn" onclick="openTab(event, 'l7')">7. אפליקציה <span class="en-term">Application</span></button>
-        </div>
-
         <!-- LAYER 1 -->
         <div id="l1" class="tab-content active">
           <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val"><span class="en-term">Layer 1</span></span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val"><span class="en-term">Physical</span></span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val"><span class="en-term">Bits</span></span></div>
-              <div class="meta-item"><span class="meta-label">רכיבים:</span><span class="meta-val">כבלים, אנטנות</span></div>
-            </div>
             <div class="comp-details">
               <h3 class="comp-title">🔌 שכבה 1 - השכבה הפיזית <span class="en-term">Physical Layer</span></h3>
               
@@ -1227,12 +1244,6 @@ footer {
         <!-- LAYER 2 -->
         <div id="l2" class="tab-content">
           <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val"><span class="en-term">Layer 2</span></span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val"><span class="en-term">Data Link</span></span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val"><span class="en-term">Frame</span></span></div>
-              <div class="meta-item"><span class="meta-label">רכיב:</span><span class="meta-val"><span class="en-term">Switch, NIC</span></span></div>
-            </div>
             <div class="comp-details">
               <h3 class="comp-title">🔗 שכבה 2 - שכבת קו הנתונים <span class="en-term">Data Link Layer</span></h3>
               
@@ -1277,12 +1288,6 @@ footer {
         <!-- LAYER 3 -->
         <div id="l3" class="tab-content">
           <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val"><span class="en-term">Layer 3</span></span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val"><span class="en-term">Network</span></span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val"><span class="en-term">Packet</span></span></div>
-              <div class="meta-item"><span class="meta-label">רכיב:</span><span class="meta-val"><span class="en-term">Router</span></span></div>
-            </div>
             <div class="comp-details">
               <h3 class="comp-title">🌐 שכבה 3 - שכבת הרשת <span class="en-term">Network Layer</span></h3>
               
@@ -1324,12 +1329,6 @@ footer {
         <!-- LAYER 4 -->
         <div id="l4" class="tab-content">
           <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val"><span class="en-term">Layer 4</span></span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val"><span class="en-term">Transport</span></span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val"><span class="en-term">Segment</span></span></div>
-              <div class="meta-item"><span class="meta-label">זיהוי:</span><span class="meta-val"><span class="en-term">Ports</span></span></div>
-            </div>
             <div class="comp-details">
               <h3 class="comp-title">🚚 שכבה 4 - שכבת התחבורה <span class="en-term">Transport Layer</span></h3>
               
@@ -1366,12 +1365,6 @@ footer {
         <!-- LAYER 5 -->
         <div id="l5" class="tab-content">
           <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val"><span class="en-term">Layer 5</span></span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val"><span class="en-term">Session</span></span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val"><span class="en-term">Data</span></span></div>
-              <div class="meta-item"><span class="meta-label">תפקיד:</span><span class="meta-val">ניהול שיחות</span></div>
-            </div>
             <div class="comp-details">
               <h3 class="comp-title">🗣️ שכבה 5 - שכבת השיחה <span class="en-term">Session Layer</span></h3>
               
@@ -1401,12 +1394,6 @@ footer {
         <!-- LAYER 6 -->
         <div id="l6" class="tab-content">
           <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val"><span class="en-term">Layer 6</span></span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val"><span class="en-term">Presentation</span></span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val"><span class="en-term">Data</span></span></div>
-              <div class="meta-item"><span class="meta-label">תפקיד:</span><span class="meta-val">הצפנה, דחיסה</span></div>
-            </div>
             <div class="comp-details">
               <h3 class="comp-title">🎨 שכבה 6 - שכבת התצוגה <span class="en-term">Presentation Layer</span></h3>
               
@@ -1436,12 +1423,6 @@ footer {
         <!-- LAYER 7 -->
         <div id="l7" class="tab-content">
           <div class="component-grid">
-            <div class="meta-box">
-              <div class="meta-item"><span class="meta-label">מספר:</span><span class="meta-val"><span class="en-term">Layer 7</span></span></div>
-              <div class="meta-item"><span class="meta-label">שם:</span><span class="meta-val"><span class="en-term">Application</span></span></div>
-              <div class="meta-item"><span class="meta-label">PDU:</span><span class="meta-val"><span class="en-term">Data</span></span></div>
-              <div class="meta-item"><span class="meta-label">רכיב:</span><span class="meta-val">דפדפן, מייל</span></div>
-            </div>
             <div class="comp-details">
               <h3 class="comp-title">📱 שכבה 7 - שכבת האפליקציה <span class="en-term">Application Layer</span></h3>
               
@@ -1770,7 +1751,7 @@ const correctAnswers = {
   q11: 'b', q12: 'b', q13: 'a', q14: 'c', q15: 'b'
 };
 
-function openTab(evt, tabName) {
+function openTab(evt, tabName, num, name, pdu, dev) {
   var i, tabcontent, tablinks;
   
   tabcontent = document.getElementsByClassName("tab-content");
@@ -1785,6 +1766,14 @@ function openTab(evt, tabName) {
 
   document.getElementById(tabName).classList.add("active");
   evt.currentTarget.classList.add("active");
+
+  // עדכון קופסת הנתונים הכלליים בסיידבר
+  if (num) {
+    document.getElementById('meta-num').textContent = num;
+    document.getElementById('meta-name').textContent = name;
+    document.getElementById('meta-pdu').textContent = pdu;
+    document.getElementById('meta-dev').textContent = dev;
+  }
 }
 
 function toggleDark(){
